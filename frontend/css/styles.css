@@ -37,6 +37,10 @@ fieldset {
   width: 100%;
   padding: 0;
 }
+a {
+  text-decoration: none;
+  color: var(--white);
+}
 
 [class$="__container"] {
   max-width: 120rem;
@@ -233,4 +237,23 @@ fieldset {
 
 .cart {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cart__text {
+  margin: 0;
+  padding: 0;
+}
+
+.enlace {
+  transition: .3s;
+}
+
+.enlace:hover { 
+  border: 1px solid var(--body);
+  border-radius: .5rem;
+  padding: 0rem 2rem;
+  margin: .3rem;
+  transition: .3s;
 }
