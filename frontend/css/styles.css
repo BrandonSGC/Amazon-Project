@@ -4,7 +4,7 @@
 /* Variables */
 :root {
   --white: #ffffff;
-  --body: #e3e6e6;  
+  --body: #e3e6e6;
   --dark: #131921;
   --darkBlue: #232f3e;
   --black: #000000;
@@ -41,18 +41,26 @@ a {
   text-decoration: none;
   color: var(--white);
 }
-th, td {
+th,
+td {
   padding: 1rem 1.6rem;
 }
 
 [class$="__container"] {
   max-width: 120rem;
   margin: 0 auto;
-  width: 90%;
+  width: 85%;
 }
 
 [class$="__icon"] {
   max-width: 5rem;
+}
+
+[class$="__button"] {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
 }
 
 /* Login */
@@ -116,11 +124,10 @@ th, td {
   cursor: pointer;
 }
 
-
 /* Header */
 .header {
   background-color: var(--dark);
-  color: var(--white);  
+  color: var(--white);
   padding: 5rem 0;
 }
 .header__container {
@@ -129,7 +136,7 @@ th, td {
 }
 .header__display {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   align-items: center;
   gap: 2rem;
 }
@@ -149,7 +156,7 @@ th, td {
     justify-content: space-around;
     align-items: center;
     gap: 0;
-  } 
+  }
 
   .header__logo {
     width: 12rem;
@@ -158,22 +165,22 @@ th, td {
 }
 
 .enlace {
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.enlace:hover { 
+.enlace:hover {
   border: 1px solid var(--body);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   padding: 0rem 2rem;
-  margin: .3rem;
-  transition: .3s;
+  margin: 0.3rem;
+  transition: 0.3s;
 }
 
 .location {
   display: none;
 }
 
-.location__icon{
+.location__icon {
   width: 3rem;
   height: auto;
 }
@@ -192,16 +199,16 @@ th, td {
 }
 
 .search {
-  display: flex;  
+  display: flex;
 }
 
 .search__todos {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
   background-color: var(--body);
-  color: var(--dark); 
+  color: var(--dark);
   padding: 0 1.5rem;
   height: 4.5rem;
   border: none;
@@ -213,10 +220,11 @@ th, td {
 }
 
 .search__input {
-  max-width: 30rem;  
+  max-width: 30rem;
   height: 4.5rem;
   background-color: var(--body);
   border: none;
+  padding: 1rem;
 }
 
 @media (min-width: 425px) {
@@ -227,7 +235,7 @@ th, td {
 
 .search__box {
   background-color: var(--yellow);
-  width: 5rem;  
+  width: 5rem;
   height: 4.5rem;
   border-radius: 0rem 1rem 1rem 0rem;
   display: flex;
@@ -262,7 +270,7 @@ th, td {
 
 .cart__table {
   background-color: var(--darkBlue);
-  height: 30rem;
+  min-height: 20rem;
 }
 
 .cart__data {
@@ -274,4 +282,50 @@ th, td {
 
 .cart:hover .cart__data {
   display: block;
+}
+
+/* Section */
+
+.section {
+  background-image: url(../img/AmazonBackgroundOscuro2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: var(--white);
+}
+
+@media (min-width: 880px) {
+  .section {
+    background-position: center center;
+    height: 30rem;
+  }
+}
+
+.section__display {
+  padding: 3rem 0;
+}
+
+.section__heading {
+  margin: 0;
+  color: var(--yellow);
+  text-align: center;
+  font-size: 4.6rem;
+}
+
+.section__text {
+  font-size: 1.8rem;
+  line-height: 1.3;
+  text-align: justify;
+}
+
+.section__animation {
+  background-color: var(--body);
+  width: 10rem;
+}
+
+.section__button {
+  background-color: var(--darkBlue);
+  color: var(--yellow);
+  margin-top: 1rem;
+  padding: 1rem 4rem;
 }

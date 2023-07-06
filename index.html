@@ -5,37 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/frontend/css/normalize.css" />
     <link rel="stylesheet" href="/frontend/css/styles.css" />
+    <link rel="icon" type="image/png" href="./frontend/img/amazonIcon.png" />
     <title>Amazon - Project</title>
   </head>
   <body>
+    <!-- Header -->
     <header class="header">
       <div class="header__container">
         <div class="header__display">
           <a href="./index.html">
-            <img class="header__logo" src="./frontend/img/Amazon-Logo-White.png" alt="Amazon logo">
+            <img
+              class="header__logo"
+              src="./frontend/img/Amazon-Logo-White.png"
+              alt="Amazon logo"
+            />
           </a>
-                    
+
           <a href="#" class="enlace location">
-            <img class="location__icon" src="/frontend/img/pin-9-256.png" alt="Location Icon">
-            <p class="location__text">Enviar a<br>
+            <img
+              class="location__icon"
+              src="/frontend/img/pin-9-256.png"
+              alt="Location Icon"
+            />
+            <p class="location__text">
+              Enviar a<br />
               <span class="location__span">Costa Rica</span>
             </p>
           </a>
 
-          <div class="search"> 
+          <div class="search">
             <select class="search__todos">
-              <option >Todos</option>
+              <option>Todos</option>
             </select>
-            <input class="search__input" type="text" placeholder="Buscar Amazon">
+            <input
+              class="search__input"
+              type="text"
+              placeholder="Buscar Amazon"
+            />
             <div class="search__box">
-              <img class="search__icon" src="./frontend/img/WhiteSearch.png" alt="Search Icon">
-            </div>            
+              <img
+                class="search__icon"
+                src="./frontend/img/search.png"
+                alt="Search Icon"
+              />
+            </div>
           </div>
 
           <div href="#" class="cart">
-            <img class="cart__icon" src="./frontend/img/cart-73-256.png" alt="Shopping Cart">
+            <img
+              class="cart__icon"
+              src="./frontend/img/cart-73-256.png"
+              alt="Shopping Cart"
+            />
             <p class="cart__text">Carrito</p>
-            
+
             <!-- Shopping cart data table -->
             <div class="cart__data">
               <table class="cart__table">
@@ -51,16 +74,38 @@
                 <tbody></tbody>
               </table>
             </div>
-          </div>   
-          
-          <a href="#" class="returns-orders enlace">
-            <p>Devoluciones<br>
-              <span class="returns-orders__span"> y Pedidos</span>
-            </p>              
-          </a>
+          </div>
 
+          <a href="#" class="returns-orders enlace">
+            <p>
+              Devoluciones<br />
+              <span class="returns-orders__span"> y Pedidos</span>
+            </p>
+          </a>
         </div>
-      </div>    
+      </div>
     </header>
+
+    <section class="section">
+      <div class="section__container">
+        <div class="section__display">
+          <h1 class="section__heading">Amazon</h1>
+          <p class="section__text">
+            Amazon, el destino en línea más grande del mundo, ofrece una amplia
+            gama de productos y servicios, desde libros y electrónica hasta moda
+            y artículos para el hogar. Con una sólida reputación de
+            confiabilidad y comodidad, Amazon se esfuerza por brindar a sus
+            clientes una experiencia de compra excepcional, con envío rápido y
+            atención al cliente de primer nivel. Descubre un universo de
+            posibilidades en Amazon, donde encontrarás todo lo que necesitas y
+            mucho más.
+          </p>
+          <a class="section__button" href="#">Comprar Ahora</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Section -->
+    <main></main>
   </body>
 </html>
