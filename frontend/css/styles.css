@@ -279,20 +279,30 @@ td {
   font-weight: 700;
 }
 
-.cart__table {
-  background-color: var(--darkBlue);
-  min-height: 20rem;
-}
-
 .cart__data {
   display: none;
   position: absolute;
   left: -17rem;
   z-index: 1;
+  background-color: var(--darkBlue);
+  text-align: center;
+}
+
+.cart__table {  
+  min-height: 20rem;
 }
 
 .cart:hover .cart__data {
   display: block;
+}
+
+.cart__button {
+  background-color: var(--yellow);
+  color: var(--white);  
+  display: block;
+  margin: 1rem auto;
+  width: 70%;
+  text-align: center;
 }
 
 .cart__image {

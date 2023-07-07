@@ -3,6 +3,7 @@ let products = [];
 const productsContainer = document.querySelector('.main__display');
 const table = document.querySelector('.cart__table tbody');
 const productsCounter = document.querySelector('.cart__counter span');
+const btnVaciarCarrito = document.querySelector('.cart__button');
 
 loadEventListeners()
 
@@ -14,6 +15,7 @@ function loadEventListeners() {
     // Delete product from shopping cart.
 
     // Empty shopping cart.
+    btnVaciarCarrito.addEventListener('click', emptyCart);
 }
 
 // Add a product to the shopping cart.
@@ -76,4 +78,10 @@ function showProductsInCart() {
 
 function limpiarHTML() {
     table.innerHTML = '';
+}
+
+function emptyCart() {    
+    products = [];
+    limpiarHTML();
+    productsCounter.textContent = 0;
 }
