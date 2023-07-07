@@ -60,7 +60,7 @@ td {
   display: inline-block;
   padding: 1rem 2rem;
   border-radius: 0.4rem;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 /* Login */
@@ -307,7 +307,7 @@ td {
 
 .section__heading {
   margin: 0;
-  color: var(--yellow);
+  color: var(--white);
   text-align: center;
   font-size: 4.6rem;
 }
@@ -332,9 +332,8 @@ td {
 
 .section__button:hover {
   background-color: var(--dark);
-  transition: .3s;
+  transition: 0.3s;
 }
-
 
 /* Main - Products */
 
@@ -381,13 +380,13 @@ td {
 }
 
 .card__image {
-  object-fit: cover;  
+  object-fit: cover;
   margin: 0 auto;
   width: 100%;
   height: 20rem;
 }
 
-.card__text {  
+.card__text {
   padding: 2rem;
 }
 
@@ -410,5 +409,125 @@ td {
 
 .card__button:hover {
   background-color: var(--dark);
-  transition: .3s;
+  transition: 0.3s;
+}
+
+
+/* Footer */
+
+.footer {
+  background-color: var(--darkBlue);
+  color: var(--white);
+}
+
+.footer__header {
+  background-color: #37475a;
+}
+
+.footer__heading {
+  text-align: center;
+  font-size: 2.7rem;
+  padding: 2rem;
+}
+
+.footer__header span {
+  color: var(--yellow);
+}
+
+.footer__display {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 580px) {
+  .footer__display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .footer__display {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer__column p {
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+}
+
+/* Card */
+.socialCard {
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 20px;
+  width: 25rem;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.055);
+}
+.socialContainer {
+  width: 52px;
+  height: 52px;
+  background-color: var(--body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition-duration: 0.3s;
+}
+/* linkdin*/
+.containerThree:hover {
+  background-color: #0072b1;
+  transition-duration: 0.3s;
+}
+/* Github */
+.containerFour:hover {
+  background-color: #919191;
+  transition-duration: 0.3s;
+}
+.socialContainer:active {
+  transform: scale(0.9);
+  transition-duration: 0.3s;
+}
+.socialSvg {
+  width: 17px;
+}
+.socialSvg path {
+  fill: rgb(255, 255, 255);
+}
+.socialContainer:hover .socialSvg {
+  animation: slide-in-top 0.3s both;
+}
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cuc {
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+  height: 12rem;
+}
+
+footer a {
+  margin: 1rem 0;
+  text-decoration: underline;
 }
