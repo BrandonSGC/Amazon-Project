@@ -60,7 +60,7 @@ td {
   display: inline-block;
   padding: 1rem 2rem;
   border-radius: 0.4rem;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
 /* Login */
@@ -325,7 +325,90 @@ td {
 
 .section__button {
   background-color: var(--darkBlue);
-  color: var(--yellow);
+  color: var(--white);
   margin-top: 1rem;
   padding: 1rem 4rem;
+}
+
+.section__button:hover {
+  background-color: var(--dark);
+  transition: .3s;
+}
+
+
+/* Main - Products */
+
+.main__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.main__heading {
+  text-align: center;
+  font-size: 4.2rem;
+}
+
+.main__animation {
+  width: 5rem;
+  height: 5rem;
+}
+
+.main__display {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 580px) {
+  .main__display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .main__display {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--white);
+  color: var(--darkBlue);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card__image {
+  object-fit: cover;  
+  margin: 0 auto;
+  width: 100%;
+  height: 20rem;
+}
+
+.card__text {  
+  padding: 2rem;
+}
+
+.card__product {
+  margin-top: 0;
+}
+
+.card__price {
+  font-size: 2.4rem;
+  font-weight: 900;
+}
+
+.card__button {
+  background-color: var(--darkBlue);
+  color: var(--white);
+  display: block;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+.card__button:hover {
+  background-color: var(--dark);
+  transition: .3s;
 }
