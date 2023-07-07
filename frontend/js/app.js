@@ -2,7 +2,7 @@
 let products = [];
 const productsContainer = document.querySelector('.main__display');
 const table = document.querySelector('.cart__table tbody');
-
+const productsCounter = document.querySelector('.cart__counter span');
 
 loadEventListeners()
 
@@ -23,6 +23,7 @@ function addProduct(evt) {
 
     if (evt.target.classList.contains('card__button')) {
         const selectedProduct = evt.target.parentElement.parentElement
+        productsCounter.textContent = parseInt(productsCounter.textContent) + 1;
         getProductInfo(selectedProduct);
     }
 }
