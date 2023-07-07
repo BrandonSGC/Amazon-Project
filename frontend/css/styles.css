@@ -284,6 +284,13 @@ td {
   display: block;
 }
 
+.cart__image {
+  max-width: none;
+  width: 10rem;
+  height: 6rem;
+  object-fit: cover;
+}
+
 /* Section */
 
 .section {
@@ -375,8 +382,21 @@ td {
 .card {
   background-color: var(--white);
   color: var(--darkBlue);
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.75);
+  max-width: 33rem;
   border-radius: 1rem;
   overflow: hidden;
+  transition: .3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition: .5s;
+  -webkit-box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.75);
 }
 
 .card__image {
