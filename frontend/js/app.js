@@ -16,13 +16,14 @@ function loadEventListeners() {
 
     // Empty shopping cart.
     btnVaciarCarrito.addEventListener('click', emptyCart);
+    
 }
 
 // Add a product to the shopping cart.
 function addProduct(evt) {
     // Prevent scroll to the top when button is clicked.
     evt.preventDefault();
-
+    
     if (evt.target.classList.contains('card__button')) {
         const selectedProduct = evt.target.parentElement.parentElement
         productsCounter.textContent = parseInt(productsCounter.textContent) + 1;

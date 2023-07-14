@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/frontend/css/normalize.css" />
-    <link rel="stylesheet" href="/frontend/css/styles.css" />
-    <link rel="icon" type="image/png" href="./frontend/img/amazonIcon.png" />
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="icon" type="image/png" href="./img/amazonIcon.png"/>
     <title>Amazon - Project</title>
   </head>
   <body>
@@ -16,7 +16,7 @@
           <a href="./index.html">
             <img
               class="header__logo"
-              src="./frontend/img/Amazon-Logo-White.png"
+              src="./img/Amazon-Logo-White.png"
               alt="Amazon logo"
             />
           </a>
@@ -24,7 +24,7 @@
           <a href="#" class="enlace location">
             <img
               class="location__icon"
-              src="/frontend/img/pin-9-256.png"
+              src="./img/pin-9-256.png"
               alt="Location Icon"
             />
             <p class="location__text">
@@ -45,7 +45,7 @@
             <div class="search__box">
               <img
                 class="search__icon"
-                src="./frontend/img/search.png"
+                src="./img/search.png"
                 alt="Search Icon"
               />
             </div>
@@ -55,7 +55,7 @@
             <div class="cart__counter">
               <img
               class="cart__icon"
-              src="./frontend/img/cart-73-256.png"
+              src="./img/cart-73-256.png"
               alt="Shopping Cart"
               />
               <span>0</span>
@@ -76,8 +76,11 @@
                 </thead>
                 <tbody>                  
                 </tbody>                
-              </table>  
-              <a class="cart__button" href="#">Vaciar carrito</a>
+              </table>
+              <div class="card__buttons">
+                <a class="cart__button" href="#">Vaciar carrito</a>
+                <a class="cart__button" href="#">Comprar</a>
+              </div>
             </div>
           </div>
 
@@ -115,86 +118,86 @@
       <div class="main__container">
         <header class="main__header">
           <h2 class="main__heading">Productos</h2>
-          <img class="main__animation" src="/frontend/img/amazon-animation.gif" alt="Amazon logo animation">
+          <img class="main__animation" src="./img/amazon-animation.gif" alt="Amazon logo animation">
         </header>
         
         <div class="main__display">
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/Macbook.jpg" alt="Product">            
+            <img class="card__image" src="./img/Macbook.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">Macbook Air - 14 Pulgadas</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$1300</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>            
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/Alexa.jpg" alt="Product">            
+            <img class="card__image" src="./img/Alexa.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">Nuevo Echo Dot - Alexa - Negro</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$85</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>            
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/playstation-5.jpg" alt="Product">            
+            <img class="card__image" src="./img/playstation-5.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">Playstation 5 - Sony</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$650</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>            
           </div>          
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/JBLSpeaker.jpg" alt="Product">            
+            <img class="card__image" src="./img/JBLSpeaker.jpg" alt="Product">            
             <div class="card__text">
-              <h3 class="card__product">Playstation 5 - Sony</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <h3 class="card__product">Speaker - JBL</h3>
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$299</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/SamsungTV.jpg" alt="Product">            
+            <img class="card__image" src="./img/SamsungTV.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">Pantalla Samsung - 70"</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$1500</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/watch.jpg" alt="Product">            
+            <img class="card__image" src="./img/watch.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">WATCH GTR Black</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$96</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/Apple-iPhone-14-Pro.jpg" alt="Product">            
+            <img class="card__image" src="./img/Apple-iPhone-14-Pro.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">iPhone 14 Pro</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$999</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
           </div>
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/Mask.jpeg" alt="Product">            
+            <img class="card__image" src="./img/Mask.jpeg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">Hacker Mask</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$20</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
@@ -202,10 +205,10 @@
 
 
           <div class="card">
-            <img class="card__image" src="/frontend/img/Nike.jpg" alt="Product">            
+            <img class="card__image" src="./img/Nike.jpg" alt="Product">            
             <div class="card__text">
               <h3 class="card__product">NIKE Janoski</h3>
-              <img src="/frontend/img/estrellas.png" alt="stars">
+              <img src="./img/estrellas.png" alt="stars">
               <p class="card__price">$299</p>
               <a href="#" class="card__button">Agregar al carrito</a>
             </div>
@@ -222,7 +225,7 @@
         <div class="footer__display">          
           <div class="footer__column">
             <h4 class="">Universidad:</h4>
-            <img class="cuc" src="./frontend/img/CUC.png" alt="CUC logo">
+            <img class="cuc" src="./img/CUC.png" alt="CUC logo">
             <a href="https://www.cuc.ac.cr/" target="_blank">Colegio Universitario de Cartago</a>
           </div>
 
@@ -247,6 +250,6 @@
         </div>
       </div>
     </footer>
-    <script src="/frontend/js/app.js"></script>
+    <script src="./js/app.js"></script>
   </body>
 </html>

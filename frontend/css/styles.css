@@ -296,12 +296,15 @@ td {
   display: block;
 }
 
+.cart__buttons {
+  display: flex;
+}
+
 .cart__button {
   background-color: var(--yellow);
-  color: var(--white);  
-  display: block;
+  color: var(--white);
+  width: 35%;
   margin: 1rem auto;
-  width: 70%;
   text-align: center;
 }
 
