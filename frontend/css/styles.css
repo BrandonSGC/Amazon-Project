@@ -315,6 +315,17 @@ td {
   object-fit: cover;
 }
 
+.cart__delete {
+  background-color: #ff0000;
+  padding: .3rem;
+  border-radius: .3rem;
+}
+
+.cart__delete:hover {
+  background-color: #a30000;
+  transition: .2s;
+}
+
 /* Section */
 
 .section {

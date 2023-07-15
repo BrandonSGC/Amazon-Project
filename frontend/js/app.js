@@ -72,7 +72,8 @@ function showProductsInCart() {
             </td>
             <td>${name}</td>
             <td>${price}</td>
-            <td>${quantity}</td>`
+            <td>${quantity}</td>
+            <td><a href="#" class="cart__delete">X</td>`
         table.append(row);
     });
 }
