@@ -586,3 +586,55 @@ footer a {
   margin: 1rem 0;
   text-decoration: underline;
 }
+
+
+/* Purchase - Form */
+
+.purchaseForm {
+  background-color: var(--darkBlue);
+  color: var(--white);
+  padding: 3rem;
+  width: 60rem;
+  margin: 5rem auto;
+  border-radius: .3rem;
+}
+
+.purchaseForm__heading {
+  text-align: center;
+}
+
+.purchaseForm__field {
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.purchaseForm__label {
+  font-weight: 70;
+}
+
+.purchaseForm__input {
+  all: unset;
+  background-color: transparent;
+  color: var(--white);  
+  padding: 1rem;  
+  border: none;
+  border-bottom: 1px solid var(--yellow);
+}
+
+.purchaseForm__button {
+  background-color: var(--yellow);
+  border: none;
+  text-transform: uppercase;
+  color: var(--white);
+  width: 15rem;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.purchaseForm__button:hover {
+  background-color: #c07300;
+  transition: .3s;
+}

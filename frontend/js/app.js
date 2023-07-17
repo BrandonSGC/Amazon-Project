@@ -28,6 +28,7 @@ function addProduct(evt) {
         const selectedProduct = evt.target.parentElement.parentElement
         productsCounter.textContent = parseInt(productsCounter.textContent) + 1;
         getProductInfo(selectedProduct);
+        console.log(products);
     }
 }
 
