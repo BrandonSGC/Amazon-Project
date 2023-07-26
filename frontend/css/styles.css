@@ -360,6 +360,12 @@ td {
   text-align: justify;
 }
 
+@media (min-width: 768px) {
+  .section__text {
+    text-align: left;
+  }
+}
+
 .section__animation {
   background-color: var(--body);
   width: 10rem;
