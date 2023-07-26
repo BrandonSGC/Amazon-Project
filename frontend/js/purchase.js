@@ -1,4 +1,4 @@
-const products = JSON.parse(localStorage.getItem("cart")) || [];
+let products = JSON.parse(localStorage.getItem("cart")) || [];
 const cartTableBody = document.getElementById("cartTableBody");
 const productsCounter = document.querySelector(".cart__counter span");
 const btnVaciarCarrito = document.querySelector('.cart__button');
@@ -32,7 +32,7 @@ function sicronizarStorage() {
 }
 
 function limpiarHTML() {
-    table.innerHTML = '';
+  cartTableBody.innerHTML = '';
 }
 
 function emptyCart() {    
