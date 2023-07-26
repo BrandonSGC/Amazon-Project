@@ -634,7 +634,8 @@ footer a {
   cursor: pointer;
 }
 
-.purchaseForm__button:hover {
+.purchaseForm__button:hover,
+.cart__button:hover {
   background-color: #c07300;
   transition: .3s;
 }

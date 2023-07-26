@@ -12,11 +12,25 @@ function loadEventListeners() {
     // Add products to shppping cart.
     productsContainer.addEventListener('click', addProduct);
 
-    // Delete product from shopping cart.
+    // Delete product from shopping cart.    
+    productsContainer.addEventListener('click', deleteProduct);
+
+    // Show the products from the Local Storage
+    document.addEventListener('DOMContentLoaded', () => {
+        products = JSON.parse(localStorage.getItem('cart')) || [];
+        productsCounter.textContent = products.length;
+        showProductsInCart();
+    })
 
     // Empty shopping cart.
     btnVaciarCarrito.addEventListener('click', emptyCart);
     
+}
+
+function deleteProduct(evt) {
+    if (evt.target.classList.contains('.cart__delete')) {
+        products = products.filter()
+    }
 }
 
 // Add a product to the shopping cart.
@@ -26,6 +40,7 @@ function addProduct(evt) {
     
     if (evt.target.classList.contains('card__button')) {
         const selectedProduct = evt.target.parentElement.parentElement
+        sicronizarStorage();
         productsCounter.textContent = parseInt(productsCounter.textContent) + 1;
         getProductInfo(selectedProduct);
         console.log(products);
@@ -77,6 +92,13 @@ function showProductsInCart() {
             <td><a href="#" class="cart__delete">X</td>`
         table.append(row);
     });
+
+    // Add cart to localStorage.
+    sicronizarStorage();
+}
+
+function sicronizarStorage() {
+    localStorage.setItem('cart', JSON.stringify(products))
 }
 
 function limpiarHTML() {
@@ -87,4 +109,5 @@ function emptyCart() {
     products = [];
     limpiarHTML();
     productsCounter.textContent = 0;
+    sicronizarStorage();
 }
