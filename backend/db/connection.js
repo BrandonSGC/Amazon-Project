@@ -1,7 +1,9 @@
-// Import SQL Server.
+// Este archivo vamos a tener la configuración de la base de datos 
+// de SQL Server y la lógica relacionada.
+
 const sql = require('mssql');
 
-// Connection config.
+// Configuración de la conexión a la base de datos
 const config = {
   user: 'sa',
   password: 'root',
@@ -13,14 +15,8 @@ const config = {
   },
 };
 
-// Functions.
-
-function iniciarSesion() {
-    
-}
-
-
-async function insertarClienteSQLServer(cedula, nombre, primerApellido,
+// Funcion para insertar los clientes.
+async function login(cedula, nombre, primerApellido,
 segundoApellido, fechaNacimiento, telefono, email, sexo, estado) {
     try {
         // Creamos el pool
@@ -59,6 +55,6 @@ async function obtenerClientesSQLServer() {
 
 // Exportamos las funciones.
 module.exports = {
-    insertarClienteSQLServer,
+    login,
     obtenerClientesSQLServer,
 };
