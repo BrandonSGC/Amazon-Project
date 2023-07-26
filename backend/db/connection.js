@@ -1,14 +1,14 @@
-// Este archivo vamos a tener la configuración de la base de datos 
+// Este archivo vamos a tener la configuración de la base de datos
 // de SQL Server y la lógica relacionada.
 
-const sql = require('mssql');
+const sql = require("mssql");
 
 // Configuración de la conexión a la base de datos
 const config = {
-  user: 'sa',
-  password: 'root',
-  server: 'localhost',
-  database: 'Amazon',
+  user: "sa",
+  password: "root",
+  server: "localhost",
+  database: "Amazon",
   options: {
     encrypt: true,
     trustServerCertificate: true,
@@ -16,45 +16,41 @@ const config = {
 };
 
 // Funcion para insertar los clientes.
-async function login(cedula, nombre, primerApellido,
-segundoApellido, fechaNacimiento, telefono, email, sexo, estado) {
-    try {
-        // Creamos el pool
-        const pool = await sql.connect(config);
+async function loginUser(cedula, password) {
+  try {
+    const pool = await sql.connect(config);
 
-        await pool.request()
-        .input('cedula', sql.Int, cedula)
-        .input('nombre', sql.VarChar(30), nombre)
-        .input('primerApellido', sql.VarChar(30), primerApellido)
-        .input('segundoApellido', sql.VarChar(30), segundoApellido)            
-        .input('telefono', sql.Int, telefono)
-        .input('email', sql.VarChar(60), email)
-        .input('fechaNacimiento', sql.Date, fechaNacimiento)
-        .input('sexo', sql.VarChar(1), sexo)
-        .input('estado', sql.Bit, estado)
-        .query('INSERT INTO Cliente VALUES (@cedula, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @fechaNacimiento, @sexo, @estado)');
-        pool.close();
-    } catch (error) {
-        console.error('Error al insertar los datos del Cliente.', error)
+    const result = await pool
+      .request()
+      .input('cedula', sql.Int, cedula)
+      .input('password', sql.NVarChar, password)
+      .query('SELECT * FROM Usuarios WHERE cedula = @cedula AND password = @password');
+
+    if (result.recordset.length > 0) {
+      // El inicio de sesión fue exitoso
+      return { success: true, message: 'Inicio de sesión exitoso' };
+    } else {
+      // Credenciales inválidas
+      return { success: false, message: 'Credenciales inválidas' };
     }
+  } catch (error) {
+    console.error('Error en la conexión o consulta SQL:', error.message);
+    return { success: false, message: 'Error en el servidor' };
+  }
 }
 
 // Función para obtener los clientes.
 async function obtenerClientesSQLServer() {
-    try {
-        await sql.connect(config);
-        const result = await sql.query('SELECT * FROM Cliente');
-        return result.recordset;
-    } catch (error) {
-        throw error;
-    } finally {
-        sql.close();
-    }
+  try {
+    await sql.connect(config);
+    const result = await sql.query("SELECT * FROM Cliente");
+    return result.recordset;
+  } catch (error) {
+    throw error;
+  } finally {
+    sql.close();
+  }
 }
 
-
 // Exportamos las funciones.
-module.exports = {
-    login,
-    obtenerClientesSQLServer,
-};
+module.exports = { loginUser };
