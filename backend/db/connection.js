@@ -1,9 +1,6 @@
-// Este archivo vamos a tener la configuración de la base de datos
-// de SQL Server y la lógica relacionada.
-
 const sql = require("mssql");
 
-// Configuración de la conexión a la base de datos
+// Database connection.
 const config = {
   user: "sa",
   password: "root",
@@ -15,7 +12,9 @@ const config = {
   },
 };
 
-// Funcion para insertar los clientes.
+
+// Functions
+
 async function loginUser(cedula, password) {
   try {
     const pool = await sql.connect(config);
@@ -39,7 +38,43 @@ async function loginUser(cedula, password) {
   }
 }
 
-// Función para obtener los clientes.
+
+async function thereIsProduct(name) {
+  const pool = await sql.connect(config);
+
+  const result = await pool
+  .request()
+  .input('name', sql.VarChar, name)
+  .query('SELECT * FROM CEDI WHERE nombreProducto = @name');
+
+
+  if (result.recordset.length > 0) {
+    return {success: true, quantity: result.recordset[0].cantidad};
+  } else {
+    return {success: false};
+  }
+}
+
+
+async function spMakePurchase(productName, quantity) {
+  try {
+    // Create a new connection pool.
+    const pool = await sql.connect(config);
+
+    // Execute the stored procedure.
+    await pool.request()
+      .input("productName", sql.VarChar(60), productName)
+      .input("quantity", sql.Int, quantity)
+      .execute("spAmazon_MakePurchase");
+
+    // Close the connection pool.
+    pool.close();
+  } catch (err) {
+    console.error("Error executing the stored procedure:", err);
+  }
+}
+
+
 async function obtenerClientesSQLServer() {
   try {
     await sql.connect(config);
@@ -53,4 +88,8 @@ async function obtenerClientesSQLServer() {
 }
 
 // Exportamos las funciones.
-module.exports = { loginUser };
+module.exports = { 
+  loginUser, 
+  thereIsProduct,
+  spMakePurchase,
+};
