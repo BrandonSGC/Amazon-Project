@@ -13,7 +13,7 @@
     <header class="header">
       <div class="header__container">
         <div class="header__display">
-          <a href="./home.html">
+          <a href="./home">
             <img
               class="header__logo"
               src="./img/Amazon-Logo-White.png"
@@ -76,12 +76,11 @@
                 <tbody id="cartTableBody"></tbody>
               </table>
               <div class="card__buttons">
-                <a class="cart__button" href="#">Vaciar carrito</a>
-                <a class="cart__button" href="./">Comprar</a>
+                <a class="cart__button">Vaciar carrito</a>
+                <a class="cart__button" href="./purchase">Comprar</a>
               </div>
             </div>
           </div>
-          <script src="./js/purchase.js"></script>
           <a href="#" class="returns-orders enlace">
             <p>
               Devoluciones<br />
@@ -95,7 +94,7 @@
     <!-- Main -->
     <main class="main">
       <div class="main__container">        
-        <form class="purchaseForm" action="/purchase" method="post">
+        <form id="purchaseForm" class="purchaseForm" action="/purchase" method="post">
             <h1 class="purchaseForm__heading">Realizar Compra</h1>
             <div class="purchaseForm__field">
                 <label class="purchaseForm__label" for="cedula">Cedula:</label>
@@ -186,4 +185,5 @@
       </div>
     </footer>
   </body>
+  <script src="./js/purchase.js"></script>
 </html>

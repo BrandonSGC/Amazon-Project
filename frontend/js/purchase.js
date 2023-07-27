@@ -1,10 +1,38 @@
+// Variables
 let products = JSON.parse(localStorage.getItem("cart")) || [];
 const cartTableBody = document.getElementById("cartTableBody");
 const productsCounter = document.querySelector(".cart__counter span");
-const btnVaciarCarrito = document.querySelector('.cart__button');
+const btnVaciarCarrito = document.querySelector(".cart__button");
+const purchaseForm = document.querySelector("#purchaseForm");
 
-// Mostrar los productos en el carrito cuando se cargue la página
+// Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
+  // Show products in the cart
+  showProductsInCart();
+
+  // Empty shopping cart.
+  btnVaciarCarrito.addEventListener("click", emptyCart);
+
+  // Send data to backend.
+  purchaseForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    fetch("http://localhost:3000/purchase", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(products),
+    })
+      .then((res) => res.json()) // <= Handle JSON response from server
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  });
+});
+
+// Funciones
+
+function showProductsInCart() {
   // Iterar sobre los productos y agregar filas a la tabla
   products.forEach((product) => {
     const row = document.createElement("tr");
@@ -21,23 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   productsCounter.textContent = products.length;
-});
-
-// Empty shopping cart.
-btnVaciarCarrito.addEventListener("click", emptyCart);
-
+}
 
 function sicronizarStorage() {
-    localStorage.setItem('cart', JSON.stringify(products))
+  localStorage.setItem("cart", JSON.stringify(products));
 }
 
 function limpiarHTML() {
-  cartTableBody.innerHTML = '';
+  cartTableBody.innerHTML = "";
 }
 
-function emptyCart() {    
-    products = [];
-    limpiarHTML();
-    productsCounter.textContent = 0;
-    sicronizarStorage();
+function emptyCart() {
+  products = [];
+  limpiarHTML();
+  productsCounter.textContent = 0;
+  sicronizarStorage();
 }

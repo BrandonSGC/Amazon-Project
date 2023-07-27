@@ -14,16 +14,12 @@ const { loginUser } = require('./db/connection');
 // Middleware to serve static files from the 'frontend' folder
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-// Routing.
 
-// Route to show the login page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
-});
+// ROUTING
 
 // Login Route
-app.get('/home', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'home.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 app.post('/login', async (req, res) => {
@@ -43,11 +39,27 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Home Route
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'home.html'));
+});
 
-// Other routes you may need, such as the purchase page
+
+// Purchase Route
 app.get('/purchase', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'purchase.html'));
 });
+// Purchase Route
+app.post("/purchase", (req,res)=>{
+  const products = req.body;
+  //console.log(products);
+
+  products.forEach( element => {
+    console.log(element);
+  });
+  //res.status(200).json({ received: req.body }); // Send back a confirmation JSON response
+});
+
 
 // Start the server on a specific port
 const port = 3000; // You can change the port if you wish
