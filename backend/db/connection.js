@@ -56,7 +56,7 @@ async function thereIsProduct(name) {
 }
 
 
-async function spMakePurchase(productName, quantity) {
+async function spUpdateCEDI(productName, quantity) {
   try {
     // Create a new connection pool.
     const pool = await sql.connect(config);
@@ -73,6 +73,27 @@ async function spMakePurchase(productName, quantity) {
     console.error("Error executing the stored procedure:", err);
   }
 }
+
+async function spGetCheapestProductAndSendToCEDI(productName, price, quantity) {
+  try {
+    // Create a new connection pool.
+    const pool = await sql.connect(config);
+
+    // Execute the stored procedure.
+    await pool
+      .request()
+      .input("ProductName", sql.VarChar(60), productName)
+      .input("NuevoPrecio", sql.Int, price)
+      .input("Cantidad", sql.Int, quantity)
+      .execute("spAmazon_GetCheapestProductAndSendToCEDI"); // Corrected the execute statement
+
+    // Close the connection pool.
+    pool.close();
+  } catch (err) {
+    console.error("Error executing the stored procedure:", err);
+  }
+}
+
 
 
 async function obtenerClientesSQLServer() {
@@ -91,5 +112,6 @@ async function obtenerClientesSQLServer() {
 module.exports = { 
   loginUser, 
   thereIsProduct,
-  spMakePurchase,
+  spUpdateCEDI,
+  spGetCheapestProductAndSendToCEDI,
 };

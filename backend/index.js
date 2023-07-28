@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // DBs
-const { loginUser, thereIsProduct, spMakePurchase } = require('./db/connection');
+const { loginUser, thereIsProduct, spUpdateCEDI, spGetCheapestProductAndSendToCEDI } = require('./db/connection');
 
 
 // Middleware to serve static files from the 'frontend' folder
@@ -53,9 +53,8 @@ app.get('/purchase', (req, res) => {
 app.post("/purchase", async (req,res) => {
   const products = req.body;
   
-  // 
+  // Funcionality make the purchase of the products.
   for (const product of products) {
-    //console.log(product);
 
     // Validate if we have the product.
     if ((await thereIsProduct(product.name)).success) {
@@ -65,21 +64,20 @@ app.post("/purchase", async (req,res) => {
       // Validate if we have the quantity of the product.
       if ((await thereIsProduct(product.name)).quantity >= product.quantity) {
         // Update the CEDI's table records.
-        // Call the makePurchase function to execute the stored procedure and update the CEDI's table records.
-        await spMakePurchase(product.name, product.quantity);
+        await spUpdateCEDI(product.name, product.quantity);
         console.log("Purchase completed successfully.");
 
       }  else {
-        // Update the CEDI's table records with the quantity (get all products in stock) .
+        // Search for the cheapest product in the other tables and update the tables.
 
-        // Then, select the cheapest product from the other tables. (loof for the rest of the products)
-        console.log("Updating records of CEDI's Table and looking for the product in the other tables....")
+        // Dejamos en 0
+        await spUpdateCEDI(product.name, (await thereIsProduct(product.name)).quantity);
       }
 
+    // If we dont have the product...  
     } else {
-      console.log(`We don't have the product ${product.name}.`);
-      // Search for the cheapest product from the other tables and validate if there are enough quantity.
-
+      await spGetCheapestProductAndSendToCEDI(product.name, parseInt(product.price.slice(1)), product.quantity);
+      console.log("Purchase completed successfully.");
     }
   }
   
