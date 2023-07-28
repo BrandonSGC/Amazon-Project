@@ -5,23 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="icon" type="image/png" href="./img/amazonIcon.png">
+    <link rel="icon" type="image/png" href="./img/amazonIcon.png" />
     <title>Amazon - Inicio de Sesión</title>
   </head>
   <body class="body-login">
     <main class="login">
       <div class="login__container">
         <form class="form" action="/login" method="post">
+          <h1 class="form__heading">Inicio de Sesión</h1>
+          <img
+            class="form__logo"
+            src="./img/Amazon_logo.svg.png"
+            alt="Amazon"
+          />
           <fieldset>
-            <legend class="form__heading">Inicio de Sesión</legend>
-            <img
-              class="form__logo"
-              src="./img/Amazon_logo.svg.png"
-              alt="Amazon"
-            />
             <div class="form__field">
               <label class="form__label" for="cedula">Cédula:</label>
-              <input class="form__input" type="number" name="cedula" id="cedula" required/>
+              <input
+                class="form__input"
+                type="number"
+                name="cedula"
+                id="cedula"
+                required
+              />
             </div>
             <div class="form__field">
               <label class="form__label" for="password">Contraseña:</label>
@@ -34,10 +40,18 @@
               />
             </div>
           </fieldset>
-          <a href="#" class="form__signIn">Registrarse</a>
-          <button type="submit" class="form__button">Iniciar Sesión</button>
+          <div class="form__buttons">
+            <button id="loginBtn" type="submit" class="form__button">
+              Iniciar Sesión
+            </button>
+            <a href="#" class="form__button">Registrarse</a>
+          </div>
+
+          <!-- Aqui quiero mostar el mensaje de la respuesta -->
+          <p id="error-message"></p>
         </form>
       </div>
     </main>
+    <script src="./js/login.js"></script>
   </body>
 </html>

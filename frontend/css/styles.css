@@ -77,14 +77,13 @@ td {
 
 .form {
   background-color: var(--white);
-  max-width: 40rem;
-  height: 40rem;
+  max-width: 45rem;
+  height: 45rem;
   margin: 0 auto;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   padding: 2rem;
 }
 
@@ -112,32 +111,45 @@ td {
 
 .form__input {
   width: 100%;
-  padding: 0.7rem;
+  padding: 1rem;
   border: none;
   background-color: #dedede;
   border-radius: .7rem;
 }
 
-.form__signIn {
-  color: var(--darkBlue);
-  font-size: 1.8rem;
+.form__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .form__button {
-  margin-top: 1.7rem;
-  padding: 1rem 3rem;
+  margin: 1rem auto;
   background-color: var(--darkBlue);
   color: var(--white);
   border: none;
   border-radius: 0.4rem;
   font-size: 2rem;
   cursor: pointer;
+  text-align: center;
+  width: 100%;
 }
 
 .form__button:hover {
   background-color: var(--dark);
   transition: .3s;
 }
+
+.form__error {
+  width: 100%;
+  background-color: red;
+  color: var(--white);
+  padding: .7rem;
+  text-align: center;
+  border-radius: .5rem;
+  margin-top: -0.5rem;
+}
+
 /* Header */
 .header {
   background-color: var(--dark);

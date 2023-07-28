@@ -32,13 +32,15 @@ app.post("/login", async (req, res) => {
     const loginResult = await loginUser(cedula, password);
 
     if (loginResult.success) {
-      res.redirect("/home");
+      res.status(200).json({ success: true });
     } else {
-      res.status(401).send(loginResult.message);
+      res.status(401).json({ success: false, message: loginResult.message });
     }
   } catch (error) {
     console.error("Error durante el inicio de sesión:", error);
-    res.status(500).send("Error durante el inicio de sesión");
+    res
+      .status(500)
+      .json({ success: false, message: "Error durante el inicio de sesión" });
   }
 });
 
@@ -65,11 +67,11 @@ app.post("/purchase", async (req, res) => {
 
     // Validate if the user has enough money to buy it.
     if (balance > total) {
-      //await makePurchase(products);
-      console.log('Comprada realizada con éxito!')
+      await makePurchase(products);
+      console.log("Comprada realizada con éxito!");
       res.send("Comprada realizada con éxito!");
     } else {
-      console.log('No se ha podido realizar la compra.')
+      console.log("No se ha podido realizar la compra.");
       res.send("Datos invalidos.");
     }
   } catch (error) {
