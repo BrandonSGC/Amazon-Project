@@ -52,7 +52,7 @@ function sendReceiveData(evt) {
         error.className = "form__error";
       }
     })
-    .catch((error) => {.
+    .catch((error) => {
       console.error("Fetch error:", error);
     });
 }
