@@ -12,8 +12,8 @@ const {
   thereIsProduct,
   spUpdateCEDI,
   spGetCheapestProductAndSendToCEDI,
+  getAccountBalance,
 } = require("./db/connection");
-const { connect } = require("http2");
 
 // Middleware to serve static files from the 'frontend' folder
 app.use(express.static(path.join(__dirname, "..", "frontend")));
@@ -54,18 +54,28 @@ app.get("/purchase", (req, res) => {
 // Purchase Route
 app.post("/purchase", async (req, res) => {
   // Get products and account data.
-  const {cedula, accountNumber, password, products} = req.body;
+  const { cedula, accountNumber, password, products } = req.body;
+  try {
+    // Get total ammount to pay.
+    const total = getTotalAmmount(products);
+    console.log(`Total Ammount to pay: ${total}`);
 
-  // Validate if the user has enough money to buy it.
-  
-  // Get total ammount to pay.
-  const total = getTotalAmmount(products);
-  console.log(`Total Ammount to pay: ${total}`);
+    const balance = await getAccountBalance(cedula, accountNumber, password);
+    console.log(`Balance: ${balance}`);
 
-  await makePurchase(products);
-
-  
-  //res.status(200).json({ received: req.body }); // Send back a confirmation JSON response
+    // Validate if the user has enough money to buy it.
+    if (balance > total) {
+      //await makePurchase(products);
+      console.log('Comprada realizada con éxito!')
+      res.send("Comprada realizada con éxito!");
+    } else {
+      console.log('No se ha podido realizar la compra.')
+      res.send("Datos invalidos.");
+    }
+  } catch (error) {
+    console.error("Error al realizar la compra:", error);
+    res.status(500).send("Error al realizar la compra...");
+  }
 });
 
 // Start the server on a specific port
@@ -88,18 +98,13 @@ async function makePurchase(products) {
   for (const product of products) {
     // Validate if we have the product.
     if ((await thereIsProduct(product.name)).success) {
-      console.log("-Hay producto:");
-
       // Validate if we have the quantity of the product.
       if ((await thereIsProduct(product.name)).quantity >= product.quantity) {
         // Update the CEDI's table records.
         await spUpdateCEDI(product.name, product.quantity);
-        console.log("Purchase completed successfully.");
       } else {
         const cediQuantity = (await thereIsProduct(product.name)).quantity;
         const difference = product.quantity - cediQuantity;
-
-        console.log(`Necesitamos traer: ${difference} productos mas...`);
 
         // Transfer the cheapest product to CEDI's table.
         await spGetCheapestProductAndSendToCEDI(
@@ -107,7 +112,6 @@ async function makePurchase(products) {
           parseInt(product.price.slice(1)),
           difference
         );
-        console.log(`Hemos traido los ${difference} productos que faltaban...`);
 
         // Update the CEDI's table.
         await spUpdateCEDI(
@@ -116,10 +120,8 @@ async function makePurchase(products) {
             await thereIsProduct(product.name)
           ).quantity
         );
-        console.log("Purchase completed successfully.");
       }
     } else {
-      console.log("- No hay producto:");
       // Transfer the cheapest product to CEDI's table.
       await spGetCheapestProductAndSendToCEDI(
         product.name,
@@ -133,7 +135,6 @@ async function makePurchase(products) {
           await thereIsProduct(product.name)
         ).quantity
       );
-      console.log("Purchase completed successfully.");
     }
   }
 }

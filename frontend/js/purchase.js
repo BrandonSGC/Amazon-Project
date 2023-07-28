@@ -18,15 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
     evt.preventDefault();
 
     // Get values from form.
-    const cedula = document.getElementById('cedula').value;
-    const accountNumber = document.getElementById('accountNumber').value;
-    const password = document.getElementById('password').value;
+    const cedula = document.getElementById("cedula").value;
+    const accountNumber = document.getElementById("accountNumber").value;
+    const password = document.getElementById("password").value;
 
     const data = {
       cedula: cedula,
       accountNumber: accountNumber,
       password: password,
-      products: products
+      products: products,
     };
 
     fetch("/purchase", {

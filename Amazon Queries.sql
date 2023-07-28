@@ -189,13 +189,24 @@ SELECT * FROM MercadoLibre;
 
 -- Get the balance of the account.
 CREATE PROCEDURE spAmazon_GetBalance
-	@accountNumber INT
+	@cedula INT,
+	@accountNumber INT,
+	@password VARCHAR(30)
 AS
 BEGIN
-	SELECT saldo
+	SELECT CuentaBancaria.cedula, CuentaBancaria.numCuenta, CuentaBancaria.saldo, Usuarios.cedula
 	FROM CuentaBancaria
-	WHERE numCuenta = @accountNumber;
+	JOIN Usuarios
+	ON CuentaBancaria.cedula = Usuarios.cedula
+	WHERE CuentaBancaria.cedula = @cedula AND CuentaBancaria.numCuenta = @accountNumber AND Usuarios.password = @password
 END
 
 SELECT * FROM Usuarios;
 SELECT * FROM CuentaBancaria;
+
+EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
+
+
+-- Obtener datos de cuenta;
+
+

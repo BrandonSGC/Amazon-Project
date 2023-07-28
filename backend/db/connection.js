@@ -12,7 +12,6 @@ const config = {
   },
 };
 
-
 // Functions
 
 async function loginUser(cedula, password) {
@@ -21,46 +20,46 @@ async function loginUser(cedula, password) {
 
     const result = await pool
       .request()
-      .input('cedula', sql.Int, cedula)
-      .input('password', sql.NVarChar, password)
-      .query('SELECT * FROM Usuarios WHERE cedula = @cedula AND password = @password');
+      .input("cedula", sql.Int, cedula)
+      .input("password", sql.NVarChar, password)
+      .query(
+        "SELECT * FROM Usuarios WHERE cedula = @cedula AND password = @password"
+      );
 
     if (result.recordset.length > 0) {
       // El inicio de sesión fue exitoso
-      return { success: true, message: 'Inicio de sesión exitoso' };
+      return { success: true, message: "Inicio de sesión exitoso" };
     } else {
       // Credenciales inválidas
-      return { success: false, message: 'Credenciales inválidas' };
+      return { success: false, message: "Credenciales inválidas" };
     }
   } catch (error) {
-    console.error('Error en la conexión o consulta SQL:', error.message);
-    return { success: false, message: 'Error en el servidor' };
+    console.error("Error en la conexión o consulta SQL:", error.message);
+    return { success: false, message: "Error en el servidor" };
   }
 }
-
 
 async function thereIsProduct(name) {
   const pool = await sql.connect(config);
 
   const result = await pool
-  .request()
-  .input('name', sql.VarChar, name)
-  .query('SELECT * FROM CEDI WHERE nombreProducto = @name');
-
+    .request()
+    .input("name", sql.VarChar, name)
+    .query("SELECT * FROM CEDI WHERE nombreProducto = @name");
 
   if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
-    return {success: true, quantity: result.recordset[0].cantidad};
+    return { success: true, quantity: result.recordset[0].cantidad };
   } else {
-    return {success: false};
+    return { success: false };
   }
 }
-
 
 async function spUpdateCEDI(productName, quantity) {
   try {
     const pool = await sql.connect(config);
 
-    await pool.request()
+    await pool
+      .request()
       .input("productName", sql.VarChar(60), productName)
       .input("quantity", sql.Int, quantity)
       .execute("spAmazon_UpdateCEDI");
@@ -80,7 +79,7 @@ async function spGetCheapestProductAndSendToCEDI(productName, price, quantity) {
       .input("ProductName", sql.VarChar(60), productName)
       .input("NuevoPrecio", sql.Int, price)
       .input("Cantidad", sql.Int, quantity)
-      .execute("spAmazon_GetCheapestProductAndSendToCEDI"); 
+      .execute("spAmazon_GetCheapestProductAndSendToCEDI");
 
     pool.close();
   } catch (err) {
@@ -88,24 +87,32 @@ async function spGetCheapestProductAndSendToCEDI(productName, price, quantity) {
   }
 }
 
-
-
-async function obtenerClientesSQLServer() {
+async function getAccountBalance(cedula, accountNumber, password) {
   try {
-    await sql.connect(config);
-    const result = await sql.query("SELECT * FROM Cliente");
-    return result.recordset;
-  } catch (error) {
-    throw error;
-  } finally {
-    sql.close();
+    const pool = await sql.connect(config);
+
+    const result = await pool
+      .request()
+      .input("cedula", sql.Int, cedula)
+      .input("accountNumber", sql.Int, accountNumber)
+      .input("password", sql.VarChar(30), password)
+      .execute("spAmazon_GetBalance");
+
+    if (result.recordset.length > 0) {
+      pool.close();
+      return result.recordset[0].saldo;
+    } else {
+      return 0;
+    }
+  } catch {
+    console.error("Error al obtener el saldo de la cuenta.");
   }
 }
-
 // Exportamos las funciones.
-module.exports = { 
-  loginUser, 
+module.exports = {
+  loginUser,
   thereIsProduct,
   spUpdateCEDI,
   spGetCheapestProductAndSendToCEDI,
+  getAccountBalance,
 };
