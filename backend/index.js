@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // DBs
 const { loginUser, thereIsProduct, spUpdateCEDI, spGetCheapestProductAndSendToCEDI } = require('./db/connection');
+const { connect } = require('http2');
 
 
 // Middleware to serve static files from the 'frontend' folder
@@ -58,8 +59,7 @@ app.post("/purchase", async (req,res) => {
 
     // Validate if we have the product.
     if ((await thereIsProduct(product.name)).success) {
-      console.log(`We have the product ${product.name} and enough quantity (${(await thereIsProduct(product.name)).quantity} in Stock).`);
-      console.log(`Cantidad producto a vender: ${product.quantity}`)
+      console.log('-Hay producto:');
       
       // Validate if we have the quantity of the product.
       if ((await thereIsProduct(product.name)).quantity >= product.quantity) {
@@ -67,16 +67,29 @@ app.post("/purchase", async (req,res) => {
         await spUpdateCEDI(product.name, product.quantity);
         console.log("Purchase completed successfully.");
 
-      }  else {
+      } else {
         // Search for the cheapest product in the other tables and update the tables.
+        // Sacamos la diferencia, o sea los productos que nos hace falta mandar a traer de las otras tablas.
+        const cediQuantity = (await thereIsProduct(product.name)).quantity;
+        const difference = product.quantity - cediQuantity;
+        
+        console.log(`Necesitamos traer: ${difference} productos mas...`);
 
-        // Dejamos en 0
+        // Transfer the cheapest product to CEDI's table.
+        await spGetCheapestProductAndSendToCEDI(product.name, parseInt(product.price.slice(1)), difference);
+        console.log(`Hemos traido los ${difference} productos que faltaban...`);
+
+        // Update the CEDI's table.
         await spUpdateCEDI(product.name, (await thereIsProduct(product.name)).quantity);
+        console.log("Purchase completed successfully.");
       }
 
-    // If we dont have the product...  
     } else {
+      console.log('- No hay producto:')
+      // Transfer the cheapest product to CEDI's table.
       await spGetCheapestProductAndSendToCEDI(product.name, parseInt(product.price.slice(1)), product.quantity);
+      // Update the CEDI's table.
+      await spUpdateCEDI(product.name, (await thereIsProduct(product.name)).quantity);
       console.log("Purchase completed successfully.");
     }
   }

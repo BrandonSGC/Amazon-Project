@@ -48,7 +48,7 @@ async function thereIsProduct(name) {
   .query('SELECT * FROM CEDI WHERE nombreProducto = @name');
 
 
-  if (result.recordset.length > 0) {
+  if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
     return {success: true, quantity: result.recordset[0].cantidad};
   } else {
     return {success: false};
