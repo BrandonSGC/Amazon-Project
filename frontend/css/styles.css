@@ -64,6 +64,10 @@ td {
 }
 
 /* Login */
+.body-login {
+  background-color: var(--dark);
+}
+
 .login__container {
   position: absolute;
   top: 50%;
@@ -72,7 +76,7 @@ td {
 }
 
 .form {
-  background-color: var(--dark);
+  background-color: var(--white);
   max-width: 40rem;
   height: 40rem;
   margin: 0 auto;
@@ -86,12 +90,12 @@ td {
 
 .form__logo {
   width: 14rem;
-  margin: 3rem auto;
+  margin: 2rem auto;
 }
 
 .form__heading {
   font-size: 4rem;
-  color: var(--white);
+  color: var(--dark);
   text-align: center;
 }
 
@@ -103,20 +107,26 @@ td {
 
 .form__label {
   font-size: 2rem;
-  color: var(--white);
+  color: var(--darkBlue);
 }
 
 .form__input {
   width: 100%;
   padding: 0.7rem;
-  border: 1px solid var(--yellow);
-  border-radius: 0.7rem;
+  border: none;
+  background-color: #dedede;
+  border-radius: .7rem;
+}
+
+.form__signIn {
+  color: var(--darkBlue);
+  font-size: 1.8rem;
 }
 
 .form__button {
   margin-top: 1.7rem;
   padding: 1rem 3rem;
-  background-color: var(--yellow);
+  background-color: var(--darkBlue);
   color: var(--white);
   border: none;
   border-radius: 0.4rem;
@@ -124,6 +134,10 @@ td {
   cursor: pointer;
 }
 
+.form__button:hover {
+  background-color: var(--dark);
+  transition: .3s;
+}
 /* Header */
 .header {
   background-color: var(--dark);

@@ -64,31 +64,36 @@ WHERE cedula = 117970823;
 
 INSERT INTO CEDI 
 VALUES
-(1232, 'Macbook Air - 14 Pulgadas', 6, 1300),
+(1232, 'Macbook Air - 14 Pulgadas', 8, 1300),
 (1431, 'Nuevo Echo Dot - Alexa - Negro', 23, 85),
 (3243, 'Playstation 5 - Sony', 2, 650),
 (8434, 'Speaker - JBL', 5, 299),
-(2221, 'Pantalla Samsung - 70"', 3, 1500),
+(2221, 'Pantalla Samsung - 70"', 5, 1500),
 (9532, 'WATCH GTR Black', 6, 96);
 
 INSERT INTO Alibaba 
 VALUES
-(2221, 'Pantalla Samsung - 70"', 8, 1400),
-(2213, 'iPhone 14 Pro', 5, 999),
-(9383, 'Hacker Mask', 14, 20),
-(2833, 'NIKE Janoski', 7, 299);
+(2221, 'Pantalla Samsung - 70"', 15, 1400),
+(6423, 'Macbook Air - 14 Pulgadas', 9, 1299),
+(9645, 'iPhone 14 Pro', 23, 999),
+(2355, 'Playstation 5 - Sony', 31, 545),
+(8663, 'Hacker Mask', 27, 20),
+(9974, 'NIKE Janoski', 15, 299);
 
 INSERT INTO Ebay 
 VALUES
-(8923, 'iPhone 14 Pro', 12, 900),
-(2283, 'Hacker Mask', 14, 20),
-(1229, 'NIKE Janoski', 7, 299);
+(1431, 'Nuevo Echo Dot - Alexa - Negro', 12, 85),
+(8923, 'iPhone 14 Pro', 13, 900),
+(3243, 'Hacker Mask', 14, 20),
+(1229, 'NIKE Janoski', 11, 299),
+(3111, 'Speaker - JBL', 14, 299);
 
 INSERT INTO MercadoLibre
 VALUES
 (2221, 'Pantalla Samsung - 70"', 11, 1300),
 (9555, 'iPhone 14 Pro', 5, 999),
 (7344, 'Hacker Mask', 14, 20),
+(3243, 'Playstation 5 - Sony', 31, 620),
 (2103, 'NIKE Janoski', 7, 299);
 
 
@@ -177,18 +182,10 @@ BEGIN
     END;
 END;
 
-EXEC spAmazon_GetCheapestProductAndSendToCEDI 'iPhone 14 Pro', 999, 1;
-
-
 SELECT * FROM CEDI;
-SELECT * FROM MercadoLibre;
 SELECT * FROM Alibaba;
 SELECT * FROM Ebay;
-
-DELETE FROM CEDI
-WHERE sku = 8923;
-DELETE FROM Ebay
-WHERE sku = 8923;
+SELECT * FROM MercadoLibre;
 
 UPDATE CEDI
 SET cantidad = 3
@@ -205,11 +202,3 @@ SELECT Usuarios.cedula AS cedula_cliente, CuentaBancaria.numCuenta AS numero_cue
 FROM Usuarios
 JOIN CuentaBancaria
 ON Usuarios.cedula = CuentaBancaria.cedula;
-
-
-
-
-UPDATE Ebay
-SET precio = 900
-WHERE sku = 8923;
-
