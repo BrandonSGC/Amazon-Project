@@ -9,7 +9,7 @@ CREATE TABLE Usuarios(
 	cedula INT PRIMARY KEY,
 	password VARCHAR(40) NOT NULL
 );
-SELECT * FROM Usuarios WHERE cedula = 117970823 AND password = 'bran123';
+
 DROP TABLE IF EXISTS CuentaBancaria;
 CREATE TABLE CuentaBancaria(	
 	numCuenta INT PRIMARY KEY,
@@ -45,7 +45,7 @@ CREATE TABLE Ebay(
 DROP TABLE IF EXISTS MercadoLibre;
 CREATE TABLE MercadoLibre(
 	sku INT PRIMARY KEY,
-	nombreProducto VARCHAR(60) ,
+	nombreProducto VARCHAR(60) UNIQUE,
 	cantidad INT NOT NULL,
 	precio INT NOT NULL
 );
@@ -100,7 +100,7 @@ VALUES
 -- Procedimientos Almacenados:
 
 -- Actualiza la tabla de CEDI restando el producto que se vendió.
-CREATE PROCEDURE spAmazon_MakePurchase
+CREATE PROCEDURE spAmazon_UpdateCEDI
 	@productName VARCHAR(60),
 	@quantity INT
 AS
@@ -187,18 +187,15 @@ SELECT * FROM Alibaba;
 SELECT * FROM Ebay;
 SELECT * FROM MercadoLibre;
 
-UPDATE CEDI
-SET cantidad = 3
-WHERE sku = 2221;
-UPDATE MercadoLibre
-SET cantidad = 15
-WHERE sku = 2221;
-UPDATE Alibaba
-SET cantidad = 15
-WHERE sku = 2321;
+-- Get the balance of the account.
+CREATE PROCEDURE spAmazon_GetBalance
+	@accountNumber INT
+AS
+BEGIN
+	SELECT saldo
+	FROM CuentaBancaria
+	WHERE numCuenta = @accountNumber;
+END
 
--- Obtener los detalles de los usuarios con sus respectivas cuentas bancarias.
-SELECT Usuarios.cedula AS cedula_cliente, CuentaBancaria.numCuenta AS numero_cuenta, CuentaBancaria.saldo AS saldo
-FROM Usuarios
-JOIN CuentaBancaria
-ON Usuarios.cedula = CuentaBancaria.cedula;
+SELECT * FROM Usuarios;
+SELECT * FROM CuentaBancaria;

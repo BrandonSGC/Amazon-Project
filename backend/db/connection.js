@@ -58,16 +58,13 @@ async function thereIsProduct(name) {
 
 async function spUpdateCEDI(productName, quantity) {
   try {
-    // Create a new connection pool.
     const pool = await sql.connect(config);
 
-    // Execute the stored procedure.
     await pool.request()
       .input("productName", sql.VarChar(60), productName)
       .input("quantity", sql.Int, quantity)
-      .execute("spAmazon_MakePurchase");
+      .execute("spAmazon_UpdateCEDI");
 
-    // Close the connection pool.
     pool.close();
   } catch (err) {
     console.error("Error executing the stored procedure:", err);
@@ -76,18 +73,15 @@ async function spUpdateCEDI(productName, quantity) {
 
 async function spGetCheapestProductAndSendToCEDI(productName, price, quantity) {
   try {
-    // Create a new connection pool.
     const pool = await sql.connect(config);
 
-    // Execute the stored procedure.
     await pool
       .request()
       .input("ProductName", sql.VarChar(60), productName)
       .input("NuevoPrecio", sql.Int, price)
       .input("Cantidad", sql.Int, quantity)
-      .execute("spAmazon_GetCheapestProductAndSendToCEDI"); // Corrected the execute statement
+      .execute("spAmazon_GetCheapestProductAndSendToCEDI"); 
 
-    // Close the connection pool.
     pool.close();
   } catch (err) {
     console.error("Error executing the stored procedure:", err);

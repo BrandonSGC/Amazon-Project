@@ -16,13 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // Send data to backend.
   purchaseForm.addEventListener("submit", (evt) => {
     evt.preventDefault();
-    fetch("http://localhost:3000/purchase", {
+
+    // Get values from form.
+    const cedula = document.getElementById('cedula').value;
+    const accountNumber = document.getElementById('accountNumber').value;
+    const password = document.getElementById('password').value;
+
+    const data = {
+      cedula: cedula,
+      accountNumber: accountNumber,
+      password: password,
+      products: products
+    };
+
+    fetch("/purchase", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(products),
+      body: JSON.stringify(data),
     })
       .then((res) => res.json()) // <= Handle JSON response from server
       .then((data) => console.log(data))
