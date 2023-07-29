@@ -68,13 +68,17 @@ app.post("/purchase", async (req, res) => {
 
     // Validate if the user has enough money to buy it.
     if (balance > purchaseAmmount) {
-      await makePurchase(products, purchaseAmmount);
-      await spUpdateBalance(purchaseAmmount, accountNumber);
-      console.log("Comprada realizada con éxito!");
-      res.send("Comprada realizada con éxito!");
+      try {
+        await makePurchase(products, purchaseAmmount);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log("Comprada realizada con éxito!");
+        res.send("Comprada realizada con éxito!");
+      } catch {
+        console.log('Producto agotado...');
+      }
     } else {
-      console.log("No se ha podido realizar la compra.");
-      res.send("Datos invalidos.");
+      console.log("Fondos insuficientes.");
+      res.send("Fondos insuficientes.");
     }
   } catch (error) {
     console.error("Error al realizar la compra:", error);
@@ -100,15 +104,15 @@ function getTotalAmmount(products) {
 async function makePurchase(products) {
   // Funcionality make the purchase of the products.
   for (const product of products) {
+    const availableQuantity = (await thereIsProduct(product.name)).quantity;
     // Validate if we have the product.
     if ((await thereIsProduct(product.name)).success) {
       // Validate if we have the quantity of the product.
-      if ((await thereIsProduct(product.name)).quantity >= product.quantity) {
+      if (availableQuantity >= product.quantity) {
         // Update the CEDI's table records.
         await spUpdateCEDI(product.name, product.quantity);
       } else {
-        const cediQuantity = (await thereIsProduct(product.name)).quantity;
-        const difference = product.quantity - cediQuantity;
+        const difference = product.quantity - availableQuantity;
 
         // Transfer the cheapest product to CEDI's table.
         await spGetCheapestProductAndSendToCEDI(
@@ -118,12 +122,7 @@ async function makePurchase(products) {
         );
 
         // Update the CEDI's table.
-        await spUpdateCEDI(
-          product.name,
-          (
-            await thereIsProduct(product.name)
-          ).quantity
-        );
+        await spUpdateCEDI(product.name, availableQuantity);
       }
     } else {
       // Transfer the cheapest product to CEDI's table.

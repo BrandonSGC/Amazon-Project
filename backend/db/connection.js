@@ -66,7 +66,7 @@ async function spUpdateCEDI(productName, quantity) {
 
     pool.close();
   } catch (err) {
-    console.error("Error executing the stored procedure:", err);
+    console.error("Error executing the stored procedure spUpdateCEDI:", err);
   }
 }
 
@@ -83,7 +83,7 @@ async function spGetCheapestProductAndSendToCEDI(productName, price, quantity) {
 
     pool.close();
   } catch (err) {
-    console.error("Error executing the stored procedure:", err);
+    console.error("Error executing the stored procedure spGetCheapestProductAndSendToCEDI:", err);
   }
 }
 
@@ -121,7 +121,7 @@ async function spUpdateBalance(purchaseAmmount, accountNumber) {
 
     pool.close();
   } catch (err) {
-    console.error("Error executing the stored procedure:", err);
+    console.error("Error executing the stored procedure spUpdateBalance:", err);
   }
 }
 

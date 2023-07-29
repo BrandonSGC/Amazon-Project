@@ -109,7 +109,7 @@ BEGIN
 	SET cantidad = cantidad - @quantity
 	WHERE nombreProducto = @productName;
 END
-
+SELECT * FROM CuentaBancaria;
 -- Busca el producto mas barato, lo pasa al cedi y actualiza las tablas.
 ALTER PROCEDURE spAmazon_GetCheapestProductAndSendToCEDI
     @ProductName VARCHAR(60),
@@ -182,6 +182,12 @@ BEGIN
     END;
 END;
 
+EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Macbook Air - 14 Pulgadas', 1300, 1;
+
+UPDATE CEDI
+SET cantidad = 2
+WHERE sku = 1232;
+
 SELECT * FROM CEDI;
 SELECT * FROM CuentaBancaria;
 SELECT * FROM Alibaba;
@@ -226,3 +232,7 @@ EXEC spAmazon_UpdateBalance 1000, 23123;
 
 -- Obtener datos de cuenta;
 SELECT * FROM CuentaBancaria;
+
+UPDATE CuentaBancaria
+SET saldo = 100000
+WHERE numCuenta = 23123;
