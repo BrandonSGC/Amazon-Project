@@ -14,6 +14,9 @@ const {
   spGetCheapestProductAndSendToCEDI,
   getAccountBalance,
   spUpdateBalance,
+  thereIsProductInAlibaba,
+  thereIsProductInEbay,
+  thereIsProductInMercadoLibre,
 } = require("./db/connection");
 
 // Middleware to serve static files from the 'frontend' folder
@@ -69,12 +72,11 @@ app.post("/purchase", async (req, res) => {
     // Validate if the user has enough money to buy it.
     if (balance > purchaseAmmount) {
       try {
-        await makePurchase(products, purchaseAmmount);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
-        console.log("Comprada realizada con éxito!");
+        await makePurchase(products, purchaseAmmount, accountNumber);
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
         res.send("Comprada realizada con éxito!");
-      } catch {
-        console.log('Producto agotado...');
+      } catch (error) {
+        console.log(`Error al comprar: ${error}`);
       }
     } else {
       console.log("Fondos insuficientes.");
@@ -101,43 +103,65 @@ function getTotalAmmount(products) {
   return total;
 }
 
-async function makePurchase(products) {
+async function makePurchase(products, purchaseAmmount, accountNumber) {
+
   // Funcionality make the purchase of the products.
   for (const product of products) {
-    const availableQuantity = (await thereIsProduct(product.name)).quantity;
+
+    const { name, price, quantity } = product;
+
+    const availableQuantity = (await thereIsProduct(name)).quantity;
     // Validate if we have the product.
-    if ((await thereIsProduct(product.name)).success) {
+    if ((await thereIsProduct(name)).success) {
       // Validate if we have the quantity of the product.
-      if (availableQuantity >= product.quantity) {
+      if (availableQuantity >= quantity) {
         // Update the CEDI's table records.
-        await spUpdateCEDI(product.name, product.quantity);
+        await spUpdateCEDI(name, quantity);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log('Comprada realizada con éxito!');
       } else {
-        const difference = product.quantity - availableQuantity;
+        const difference = quantity - availableQuantity;
 
         // Transfer the cheapest product to CEDI's table.
         await spGetCheapestProductAndSendToCEDI(
-          product.name,
-          parseInt(product.price.slice(1)),
+          name,
+          parseInt(price.slice(1)),
           difference
         );
 
         // Update the CEDI's table.
-        await spUpdateCEDI(product.name, availableQuantity);
+        await spUpdateCEDI(name, availableQuantity);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log('Comprada realizada con éxito!');
       }
     } else {
-      // Transfer the cheapest product to CEDI's table.
-      await spGetCheapestProductAndSendToCEDI(
-        product.name,
-        parseInt(product.price.slice(1)),
-        product.quantity
-      );
-      // Update the CEDI's table.
-      await spUpdateCEDI(
-        product.name,
-        (
-          await thereIsProduct(product.name)
-        ).quantity
-      );
+
+      const AvailableAlibabaProduct = (await thereIsProductInAlibaba(name)).quantity;
+      const AvailableEbayProduct = (await thereIsProductInEbay(name)).quantity;
+      const AvailableMercadoLibreProduct = (await thereIsProductInMercadoLibre(name)).quantity;
+
+      // Validate that there is enough porducts on the tables
+      if (quantity <= AvailableAlibabaProduct || quantity <= AvailableEbayProduct || quantity <= AvailableMercadoLibreProduct) {
+        console.log('Se puede comprar');
+
+        //Transfer the cheapest product to CEDI's table.
+        await spGetCheapestProductAndSendToCEDI(
+          name,
+          parseInt(price.slice(1)),
+          quantity
+        );
+        // Update the CEDI's table.
+        await spUpdateCEDI(
+          name,
+          (
+            await thereIsProduct(name)
+          ).quantity
+        );
+        await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log('Comprada realizada con éxito!');
+      } else {
+        console.log('No hay suficientes productos...');
+      }
     }
   }
 }

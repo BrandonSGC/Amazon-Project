@@ -184,12 +184,12 @@ END;
 
 EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Macbook Air - 14 Pulgadas', 1300, 1;
 
-UPDATE CEDI
+UPDATE Alibaba
 SET cantidad = 2
-WHERE sku = 1232;
+WHERE sku = 6423;
 
-SELECT * FROM CEDI;
 SELECT * FROM CuentaBancaria;
+SELECT * FROM CEDI;
 SELECT * FROM Alibaba;
 SELECT * FROM Ebay;
 SELECT * FROM MercadoLibre;

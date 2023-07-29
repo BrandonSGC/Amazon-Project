@@ -125,6 +125,55 @@ async function spUpdateBalance(purchaseAmmount, accountNumber) {
   }
 }
 
+
+
+
+
+async function thereIsProductInAlibaba(name) {
+  const pool = await sql.connect(config);
+
+  const result = await pool
+    .request()
+    .input("name", sql.VarChar, name)
+    .query("SELECT * FROM Alibaba WHERE nombreProducto = @name");
+
+  if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
+    return { success: true, quantity: result.recordset[0].cantidad };
+  } else {
+    return { success: false };
+  }
+}
+
+async function thereIsProductInEbay(name) {
+  const pool = await sql.connect(config);
+
+  const result = await pool
+    .request()
+    .input("name", sql.VarChar, name)
+    .query("SELECT * FROM Ebay WHERE nombreProducto = @name");
+
+  if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
+    return { success: true, quantity: result.recordset[0].cantidad };
+  } else {
+    return { success: false };
+  }
+}
+
+async function thereIsProductInMercadoLibre(name) {
+  const pool = await sql.connect(config);
+
+  const result = await pool
+    .request()
+    .input("name", sql.VarChar, name)
+    .query("SELECT * FROM MercadoLibre WHERE nombreProducto = @name");
+
+  if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
+    return { success: true, quantity: result.recordset[0].cantidad };
+  } else {
+    return { success: false };
+  }
+}
+
 // Exportamos las funciones.
 module.exports = {
   loginUser,
@@ -133,4 +182,7 @@ module.exports = {
   spGetCheapestProductAndSendToCEDI,
   getAccountBalance,
   spUpdateBalance,
+  thereIsProductInAlibaba,
+  thereIsProductInEbay,
+  thereIsProductInMercadoLibre
 };
