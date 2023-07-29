@@ -183,9 +183,12 @@ BEGIN
 END;
 
 SELECT * FROM CEDI;
+SELECT * FROM CuentaBancaria;
 SELECT * FROM Alibaba;
 SELECT * FROM Ebay;
 SELECT * FROM MercadoLibre;
+SELECT * FROM CuentaBancaria;
+
 
 -- Get the balance of the account.
 CREATE PROCEDURE spAmazon_GetBalance
@@ -207,6 +210,19 @@ SELECT * FROM CuentaBancaria;
 EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
 
 
+
+
+CREATE PROCEDURE spAmazon_UpdateBalance
+	@purchaseAmmount INT,
+	@accountNumber INT
+AS
+BEGIN
+	UPDATE CuentaBancaria
+	SET saldo = saldo - @purchaseAmmount
+	WHERE numCuenta = @accountNumber;
+END
+
+EXEC spAmazon_UpdateBalance 1000, 23123;
+
 -- Obtener datos de cuenta;
-
-
+SELECT * FROM CuentaBancaria;

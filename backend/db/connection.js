@@ -108,6 +108,23 @@ async function getAccountBalance(cedula, accountNumber, password) {
     console.error("Error al obtener el saldo de la cuenta.");
   }
 }
+
+async function spUpdateBalance(purchaseAmmount, accountNumber) {
+  try {
+    const pool = await sql.connect(config);
+
+    await pool
+      .request()
+      .input("purchaseAmmount", sql.Int, purchaseAmmount)
+      .input("accountNumber", sql.Int, accountNumber)
+      .execute("spAmazon_UpdateBalance");
+
+    pool.close();
+  } catch (err) {
+    console.error("Error executing the stored procedure:", err);
+  }
+}
+
 // Exportamos las funciones.
 module.exports = {
   loginUser,
@@ -115,4 +132,5 @@ module.exports = {
   spUpdateCEDI,
   spGetCheapestProductAndSendToCEDI,
   getAccountBalance,
+  spUpdateBalance,
 };

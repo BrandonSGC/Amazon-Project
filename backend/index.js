@@ -13,6 +13,7 @@ const {
   spUpdateCEDI,
   spGetCheapestProductAndSendToCEDI,
   getAccountBalance,
+  spUpdateBalance,
 } = require("./db/connection");
 
 // Middleware to serve static files from the 'frontend' folder
@@ -58,16 +59,17 @@ app.post("/purchase", async (req, res) => {
   // Get products and account data.
   const { cedula, accountNumber, password, products } = req.body;
   try {
-    // Get total ammount to pay.
-    const total = getTotalAmmount(products);
-    console.log(`Total Ammount to pay: ${total}`);
+    // Get total purchase ammount to pay.
+    const purchaseAmmount = getTotalAmmount(products);
+    console.log(`Total Ammount to pay: ${purchaseAmmount}`);
 
     const balance = await getAccountBalance(cedula, accountNumber, password);
     console.log(`Balance: ${balance}`);
 
     // Validate if the user has enough money to buy it.
-    if (balance > total) {
-      await makePurchase(products);
+    if (balance > purchaseAmmount) {
+      await makePurchase(products, purchaseAmmount);
+      await spUpdateBalance(purchaseAmmount, accountNumber);
       console.log("Comprada realizada con éxito!");
       res.send("Comprada realizada con éxito!");
     } else {
