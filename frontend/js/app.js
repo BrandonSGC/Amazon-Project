@@ -5,6 +5,7 @@ const table = document.querySelector(".cart__table tbody");
 const productsCounter = document.querySelector(".cart__counter span");
 const btnVaciarCarrito = document.querySelector(".cart__button");
 const total = document.querySelector("#total");
+const cart = document.querySelector('.cart__data');
 
 loadEventListeners();
 
@@ -14,7 +15,7 @@ function loadEventListeners() {
   productsContainer.addEventListener("click", addProduct);
 
   // Delete product from shopping cart.
-  productsContainer.addEventListener("click", deleteProduct);
+  cart.addEventListener('click', deleteProduct);
 
   // Show the products from the Local Storage
   document.addEventListener("DOMContentLoaded", () => {
@@ -26,14 +27,18 @@ function loadEventListeners() {
 
   // Empty shopping cart.
   btnVaciarCarrito.addEventListener("click", emptyCart);
-
-  // Delete individual product.
 }
 
+//
 function deleteProduct(evt) {
-  if (evt.target.classList.contains(".cart__delete")) {
-    products = products.filter();
-  }
+    if (evt.target.classList.contains('cart__delete')) {
+        const name = evt.target.id;
+        products = products.filter( product => product.name != name);
+        showProductsInCart();
+        sicronizarStorage();
+        productsCounter.textContent = getQuantityOfProducts(products);
+        total.textContent = `$${getTotalAmmountToPay(products)}`;
+    }
 }
 
 // Add a product to the shopping cart.
@@ -93,7 +98,7 @@ function showProductsInCart() {
             <td>${name}</td>
             <td>${price}</td>
             <td>${quantity}</td>
-            <td><a href="#" class="cart__delete">X</td>`;
+            <td><a href="#" class="cart__delete" id="${name}">X</td>`;
     table.append(row);
   });
 
@@ -113,7 +118,7 @@ function emptyCart() {
   products = [];
   limpiarHTML();
   productsCounter.textContent = 0;
-  total.textContent = $0;
+  total.textContent = '$0';
   sicronizarStorage();
 }
 

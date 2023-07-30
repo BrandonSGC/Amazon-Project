@@ -5,6 +5,7 @@ const productsCounter = document.querySelector(".cart__counter span");
 const btnVaciarCarrito = document.querySelector(".cart__button");
 const purchaseForm = document.querySelector("#purchaseForm");
 const total = document.querySelector("#total");
+const cart = document.querySelector('.cart__data');
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,6 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   total.textContent = `$${getTotalAmmountToPay(products)}`;
   // Empty shopping cart.
   btnVaciarCarrito.addEventListener("click", emptyCart);
+
+  // Delete product from shopping cart.
+  cart.addEventListener('click', deleteProduct);
 
   // Send data to backend.
   purchaseForm.addEventListener("submit", (evt) => {
@@ -47,7 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Funciones
 
+function deleteProduct(evt) {
+  if (evt.target.classList.contains('cart__delete')) {
+      const name = evt.target.id;
+      products = products.filter( product => product.name != name);
+      showProductsInCart();
+      productsCounter.textContent = getQuantityOfProducts(products);
+      total.textContent = `$${getTotalAmmountToPay(products)}`;
+  }
+}
+
 function showProductsInCart() {
+  limpiarHTML();
   // Iterar sobre los productos y agregar filas a la tabla
   products.forEach((product) => {
     const row = document.createElement("tr");
@@ -59,7 +74,7 @@ function showProductsInCart() {
         <td>${name}</td>
         <td>${price}</td>
         <td>${quantity}</td>
-        <td><a href="#" class="cart__delete">X</td>`;
+        <td><a href="#" class="cart__delete" id="${name}">X</td>`;
     cartTableBody.appendChild(row);
   });
 }

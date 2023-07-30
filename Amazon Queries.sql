@@ -247,9 +247,9 @@ UPDATE CuentaBancaria
 SET saldo = 100000
 WHERE numCuenta = 23123
 
-UPDATE CEDI
-SET cantidad = 1
-WHERE nombreProducto = 'Macbook Air - 14 Pulgadas'
+UPDATE MercadoLibre
+SET nombreProducto = 'Pantalla Samsung - 70'
+WHERE nombreProducto = 'Pantalla Samsung - 70"'
 
 EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
 

@@ -347,8 +347,8 @@ td {
 
 .cart__delete {
   background-color: #ff0000;
-  padding: .3rem;
-  border-radius: .3rem;
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 .cart__delete:hover {
