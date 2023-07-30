@@ -45,6 +45,9 @@ th,
 td {
   padding: 1rem 1.6rem;
 }
+.td__image {
+  padding-left: 0;
+}
 
 [class$="__container"] {
   max-width: 120rem;
@@ -311,7 +314,8 @@ td {
   left: -17rem;
   z-index: 1;
   background-color: var(--darkBlue);
-  text-align: center;
+  /* text-align: center; */
+  padding: 2rem;
 }
 
 .cart__table {  
@@ -323,7 +327,7 @@ td {
 }
 
 .cart__buttons {
-  display: flex;
+  text-align: center;
 }
 
 .cart__button {
@@ -350,6 +354,14 @@ td {
 .cart__delete:hover {
   background-color: #a30000;
   transition: .2s;
+}
+
+.cart__legend {
+  font-size: 2rem;
+}
+
+#total {
+  font-weight: 700;
 }
 
 /* Section */

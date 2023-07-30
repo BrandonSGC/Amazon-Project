@@ -4,12 +4,14 @@ const cartTableBody = document.getElementById("cartTableBody");
 const productsCounter = document.querySelector(".cart__counter span");
 const btnVaciarCarrito = document.querySelector(".cart__button");
 const purchaseForm = document.querySelector("#purchaseForm");
+const total = document.querySelector("#total");
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
   // Show products in the cart
   showProductsInCart();
   productsCounter.textContent = getQuantityOfProducts(products);
+  total.textContent = `$${getTotalAmmountToPay(products)}`;
   // Empty shopping cart.
   btnVaciarCarrito.addEventListener("click", emptyCart);
 
@@ -60,7 +62,6 @@ function showProductsInCart() {
         <td><a href="#" class="cart__delete">X</td>`;
     cartTableBody.appendChild(row);
   });
-
 }
 
 function sicronizarStorage() {
@@ -75,13 +76,23 @@ function emptyCart() {
   products = [];
   limpiarHTML();
   productsCounter.textContent = 0;
+  total.textContent = '$0';
   sicronizarStorage();
 }
 
 // GetQuantityOfProducts
 function getQuantityOfProducts(products) {
   let quantityProducts = products.reduce((total, product) => {
-      return total += product.quantity;
+    return (total += product.quantity);
   }, 0);
   return quantityProducts;
+}
+
+// Return the total ammount to pay of the cart.
+function getTotalAmmountToPay(products) {
+  const total = products.reduce((total, product) => {
+    const { price, quantity } = product;
+    return total + Number(price.slice(1)) * quantity;
+  }, 0);
+  return total;
 }
