@@ -64,17 +64,17 @@ app.post("/purchase", async (req, res) => {
   try {
     // Get total purchase ammount to pay.
     const purchaseAmmount = getTotalAmmount(products);
-    console.log(`Total Ammount to pay: ${purchaseAmmount}`);
+    console.log(`Total Ammount to pay: $${purchaseAmmount}`);
 
     const balance = await getAccountBalance(cedula, accountNumber, password);
     console.log(`Balance: ${balance}`);
 
-    // Validate if the user has enough money to buy it.
+    // Validate if the user has enough money to buy.
     if (balance > purchaseAmmount) {
       try {
         await makePurchase(products, purchaseAmmount, accountNumber);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
-        res.send("Comprada realizada con éxito!");
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        //res.send("Comprada realizada con éxito!");
       } catch (error) {
         console.log(`Error al comprar: ${error}`);
       }
@@ -104,65 +104,81 @@ function getTotalAmmount(products) {
 }
 
 async function makePurchase(products, purchaseAmmount, accountNumber) {
-
-  // Funcionality make the purchase of the products.
+  
   for (const product of products) {
-
     const { name, price, quantity } = product;
+    console.log(`- Buscando ${quantity} productos: ${name} con el precio de ${price}`);
 
-    const availableQuantity = (await thereIsProduct(name)).quantity;
+    let availableQuantity = (await thereIsProduct(name)).quantity;
+
+    console.log(`- Cantidad disponible del producto en CEDI: ${availableQuantity}`);
+
     // Validate if we have the product.
     if ((await thereIsProduct(name)).success) {
+      console.log(`- Si hay producto en CEDI`);
       // Validate if we have the quantity of the product.
       if (availableQuantity >= quantity) {
+        console.log(`- Hay suficiente cantidad en CEDI`);
         // Update the CEDI's table records.
         await spUpdateCEDI(name, quantity);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
-        console.log('Comprada realizada con éxito!');
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log("- Comprada realizada con éxito!");
       } else {
+        console.log(`- No hay suficiente cantidad en CEDI`);
         const difference = quantity - availableQuantity;
-
-        // Update the CEDI's table.
-        console.log(`Nombre del producto: ${name}`);
-        console.log(`Cantidad de producto requerido: ${quantity}`);
-        console.log(`Cantidad de producto en CEDI: ${availableQuantity}`);
-        await spUpdateCEDI(name, availableQuantity); // IDFK WHY THIS IS NOT WORKING...
-        console.log('Stored procedure executed... Or should"ve')
+        console.log(`Diferencia entre la cantidad a comprar ${quantity} y cantidad disponible: ${availableQuantity}`);
 
         // Transfer the cheapest product to CEDI's table.
-        await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)),difference);
+        console.log(`Datos a mandar al stored procedure: ${name}, ${parseInt(price.slice(1))} y ${difference}`);
+       
+        await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)), difference);
 
+        // Refresh the quuantity after resupplay
+        availableQuantity = (await thereIsProduct(name)).quantity;
         
+        // Update the CEDI's table.
+        await spUpdateCEDI(name, availableQuantity);
+        
+        console.log(`Stored procedure executed, or should've...`);
+
+
         //await spUpdateBalance(purchaseAmmount, accountNumber);
-        console.log('Comprada realizada con éxito!');
+        console.log("- Comprada realizada con éxito!");
       }
     } else {
+      console.log(`- No hay producto en CEDI`);
 
       const AvailableAlibabaProduct = (await thereIsProductInAlibaba(name)).quantity;
       const AvailableEbayProduct = (await thereIsProductInEbay(name)).quantity;
       const AvailableMercadoLibreProduct = (await thereIsProductInMercadoLibre(name)).quantity;
+      
+      console.log(`Cantidad productos en Alibaba: ${AvailableAlibabaProduct}`);
+      console.log(`Cantidad productos en Ebay: ${AvailableEbayProduct}`);
+      console.log(`Cantidad productos en Mercado Libre: ${AvailableMercadoLibreProduct}`);
 
       // Validate that there is enough porducts on the tables
-      if (quantity <= AvailableAlibabaProduct || quantity <= AvailableEbayProduct || quantity <= AvailableMercadoLibreProduct) {
-        console.log('Se puede comprar');
-
+      if (
+        quantity <= AvailableAlibabaProduct ||
+        quantity <= AvailableEbayProduct ||
+        quantity <= AvailableMercadoLibreProduct
+      ) {
+        console.log("- Se puede comprar porque hay suficiente cantidad en alguna tabla");
+        console.log('- Realizando compra...')
+        
         //Transfer the cheapest product to CEDI's table.
-        await spGetCheapestProductAndSendToCEDI(
-          name,
-          parseInt(price.slice(1)),
-          quantity
-        );
+        console.log(`Datos a mandar al stored procedure: ${name}, ${parseInt(price.slice(1))} y ${quantity}`);
+        await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)), quantity);
+        availableQuantity = (await thereIsProduct(name)).quantity;
+        console.log(`Cantidad en el CEDI despues de obtener el producto mas barato: ${availableQuantity}`);
         // Update the CEDI's table.
-        await spUpdateCEDI(
-          name,
-          (
-            await thereIsProduct(name)
-          ).quantity
-        );
-        await spUpdateBalance(purchaseAmmount, accountNumber);
-        console.log('Comprada realizada con éxito!');
+        await spUpdateCEDI(name, availableQuantity);
+
+        console.log(`Cantidad en el CEDI despues de actualizar el registro: ${availableQuantity}`);
+
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log("- Comprada realizada con éxito!");
       } else {
-        console.log('No hay suficientes productos...');
+        console.log("- No hay suficientes productos...");
       }
     }
   }

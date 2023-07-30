@@ -109,17 +109,12 @@ BEGIN
 	SET cantidad = cantidad - @quantity
 	WHERE nombreProducto = @productName;
 END
-EXEC spAmazon_UpdateCEDI 'Macbook Air - 14 Pulgadas', 1;
-SELECT * FROM CuentaBancaria;
+EXEC spAmazon_UpdateCEDI 'Hacker Mask', 1;
+-- Validar que el stored procedure funcione correctamente...
+UPDATE CEDI SET cantidad = 1 WHERE nombreProducto = 'Hacker Mask';
 SELECT * FROM CEDI;
-SELECT * FROM Alibaba;
-SELECT * FROM Ebay;
-SELECT * FROM MercadoLibre;
 
-UPDATE CEDI
-SET cantidad = 1
-WHERE sku = 1232
-WHERE nombreProducto = 'Macbook Air - 14 Pulgadas';
+
 -- Busca el producto mas barato, lo pasa al cedi y actualiza las tablas.
 ALTER PROCEDURE spAmazon_GetCheapestProductAndSendToCEDI
     @ProductName VARCHAR(60),
@@ -139,15 +134,16 @@ BEGIN
     BEGIN
         -- Check if the product exists in the Alibaba table and add to the temporary table if found
         INSERT INTO @CheapestProduct
-        SELECT TOP 1 * FROM Alibaba WHERE nombreProducto = @ProductName ORDER BY precio;
+        SELECT TOP 1 * FROM Alibaba WHERE nombreProducto = @ProductName AND cantidad > 0 -- Validate quantity is greater than 0
+									
 
         -- Check if the product exists in the Ebay table and add to the temporary table if found
         INSERT INTO @CheapestProduct
-        SELECT TOP 1 * FROM Ebay WHERE nombreProducto = @ProductName ORDER BY precio;
+        SELECT TOP 1 * FROM Ebay WHERE nombreProducto = @ProductName AND cantidad > 0 -- Validate quantity is greater than 0
 
         -- Check if the product exists in the MercadoLibre table and add to the temporary table if found
         INSERT INTO @CheapestProduct
-        SELECT TOP 1 * FROM MercadoLibre WHERE nombreProducto = @ProductName ORDER BY precio;
+        SELECT TOP 1 * FROM MercadoLibre WHERE nombreProducto = @ProductName AND cantidad > 0 -- Validate quantity is greater than 0
 
         -- Get the cheapest product
         DECLARE @CheapestProductID INT;
@@ -192,13 +188,9 @@ BEGIN
     END;
 END;
 
-EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Macbook Air - 14 Pulgadas', 1300, 1;
-
-UPDATE CEDI
-SET cantidad = 1
-WHERE sku = 1232;
-
-SELECT * FROM CuentaBancaria;
+EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Hacker Mask', 20, 1;
+UPDATE Alibaba set precio = 20 WHERE sku = 8663;
+UPDATE CEDI set cantidad = 13 WHERE sku = 7344;
 SELECT * FROM CEDI;
 SELECT * FROM Alibaba;
 SELECT * FROM Ebay;
@@ -220,14 +212,7 @@ BEGIN
 	WHERE CuentaBancaria.cedula = @cedula AND CuentaBancaria.numCuenta = @accountNumber AND Usuarios.password = @password
 END
 
-SELECT * FROM Usuarios;
-SELECT * FROM CuentaBancaria;
-
-EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
-
-
-
-
+-- Update the balance.
 CREATE PROCEDURE spAmazon_UpdateBalance
 	@purchaseAmmount INT,
 	@accountNumber INT
@@ -237,24 +222,3 @@ BEGIN
 	SET saldo = saldo - @purchaseAmmount
 	WHERE numCuenta = @accountNumber;
 END
-
-EXEC spAmazon_UpdateBalance 1000, 23123;
-
--- Obtener datos de cuenta;
-SELECT * FROM CuentaBancaria;
-
-UPDATE CuentaBancaria
-SET saldo = 100000
-WHERE numCuenta = 23123
-
-UPDATE MercadoLibre
-SET nombreProducto = 'Pantalla Samsung - 70'
-WHERE nombreProducto = 'Pantalla Samsung - 70"'
-
-EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
-
-
-SELECT * FROM CEDI;
-SELECT * FROM Alibaba;
-SELECT * FROM Ebay;
-SELECT * FROM MercadoLibre;

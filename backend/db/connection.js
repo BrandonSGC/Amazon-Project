@@ -50,7 +50,7 @@ async function thereIsProduct(name) {
   if (result.recordset.length > 0 && result.recordset[0].cantidad > 0) {
     return { success: true, quantity: result.recordset[0].cantidad };
   } else {
-    return { success: false };
+    return { success: false, quantity: 0};
   }
 }
 
