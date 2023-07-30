@@ -57,11 +57,13 @@ async function thereIsProduct(name) {
 async function spUpdateCEDI(productName, quantity) {
   try {
     const pool = await sql.connect(config);
+    console.log(`- Producto: ${productName}, length: ${productName.length}, tipo: ${typeof productName}`);
+    console.log(`- Cantidad: ${quantity}, tipo: ${typeof quantity}`);
 
     await pool
       .request()
       .input("productName", sql.VarChar(60), productName)
-      .input("quantity", sql.Int, quantity)
+      .input("quantity", sql.Int, parseInt(quantity))
       .execute("spAmazon_UpdateCEDI");
 
     pool.close();
@@ -126,9 +128,6 @@ async function spUpdateBalance(purchaseAmmount, accountNumber) {
 }
 
 
-
-
-
 async function thereIsProductInAlibaba(name) {
   const pool = await sql.connect(config);
 
@@ -184,5 +183,5 @@ module.exports = {
   spUpdateBalance,
   thereIsProductInAlibaba,
   thereIsProductInEbay,
-  thereIsProductInMercadoLibre
+  thereIsProductInMercadoLibre,
 };

@@ -109,7 +109,17 @@ BEGIN
 	SET cantidad = cantidad - @quantity
 	WHERE nombreProducto = @productName;
 END
+EXEC spAmazon_UpdateCEDI 'Macbook Air - 14 Pulgadas', 1;
 SELECT * FROM CuentaBancaria;
+SELECT * FROM CEDI;
+SELECT * FROM Alibaba;
+SELECT * FROM Ebay;
+SELECT * FROM MercadoLibre;
+
+UPDATE CEDI
+SET cantidad = 1
+WHERE sku = 1232
+WHERE nombreProducto = 'Macbook Air - 14 Pulgadas';
 -- Busca el producto mas barato, lo pasa al cedi y actualiza las tablas.
 ALTER PROCEDURE spAmazon_GetCheapestProductAndSendToCEDI
     @ProductName VARCHAR(60),
@@ -184,9 +194,9 @@ END;
 
 EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Macbook Air - 14 Pulgadas', 1300, 1;
 
-UPDATE Alibaba
-SET cantidad = 2
-WHERE sku = 6423;
+UPDATE CEDI
+SET cantidad = 1
+WHERE sku = 1232;
 
 SELECT * FROM CuentaBancaria;
 SELECT * FROM CEDI;
@@ -235,4 +245,16 @@ SELECT * FROM CuentaBancaria;
 
 UPDATE CuentaBancaria
 SET saldo = 100000
-WHERE numCuenta = 23123;
+WHERE numCuenta = 23123
+
+UPDATE CEDI
+SET cantidad = 1
+WHERE nombreProducto = 'Macbook Air - 14 Pulgadas'
+
+EXEC spAmazon_GetBalance 117970823, 23123, 'bran123';
+
+
+SELECT * FROM CEDI;
+SELECT * FROM Alibaba;
+SELECT * FROM Ebay;
+SELECT * FROM MercadoLibre;

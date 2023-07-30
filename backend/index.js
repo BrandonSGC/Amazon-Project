@@ -73,7 +73,7 @@ app.post("/purchase", async (req, res) => {
     if (balance > purchaseAmmount) {
       try {
         await makePurchase(products, purchaseAmmount, accountNumber);
-        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
         res.send("Comprada realizada con éxito!");
       } catch (error) {
         console.log(`Error al comprar: ${error}`);
@@ -122,16 +122,18 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
       } else {
         const difference = quantity - availableQuantity;
 
-        // Transfer the cheapest product to CEDI's table.
-        await spGetCheapestProductAndSendToCEDI(
-          name,
-          parseInt(price.slice(1)),
-          difference
-        );
-
         // Update the CEDI's table.
-        await spUpdateCEDI(name, availableQuantity);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
+        console.log(`Nombre del producto: ${name}`);
+        console.log(`Cantidad de producto requerido: ${quantity}`);
+        console.log(`Cantidad de producto en CEDI: ${availableQuantity}`);
+        await spUpdateCEDI(name, availableQuantity); // IDFK WHY THIS IS NOT WORKING...
+        console.log('Stored procedure executed... Or should"ve')
+
+        // Transfer the cheapest product to CEDI's table.
+        await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)),difference);
+
+        
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
         console.log('Comprada realizada con éxito!');
       }
     } else {
