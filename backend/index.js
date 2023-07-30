@@ -73,10 +73,10 @@ app.post("/purchase", async (req, res) => {
     if (balance > purchaseAmmount) {
       try {
         await makePurchase(products, purchaseAmmount, accountNumber);
-        //await spUpdateBalance(purchaseAmmount, accountNumber);
-        //res.send("Comprada realizada con éxito!");
+        res.send("Comprada realizada con éxito!");
       } catch (error) {
         console.log(`Error al comprar: ${error}`);
+        res.send("Error al realizar la compra.");
       }
     } else {
       console.log("Fondos insuficientes.");
@@ -121,28 +121,22 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
         console.log(`- Hay suficiente cantidad en CEDI`);
         // Update the CEDI's table records.
         await spUpdateCEDI(name, quantity);
-        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
+
         console.log("- Comprada realizada con éxito!");
       } else {
         console.log(`- No hay suficiente cantidad en CEDI`);
         const difference = quantity - availableQuantity;
-        console.log(`Diferencia entre la cantidad a comprar ${quantity} y cantidad disponible: ${availableQuantity}`);
 
-        // Transfer the cheapest product to CEDI's table.
-        console.log(`Datos a mandar al stored procedure: ${name}, ${parseInt(price.slice(1))} y ${difference}`);
-       
+        // Transfer the cheapest product to CEDI's table.      
         await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)), difference);
 
-        // Refresh the quuantity after resupplay
+        // Refresh the quantity after resupplay
         availableQuantity = (await thereIsProduct(name)).quantity;
         
         // Update the CEDI's table.
         await spUpdateCEDI(name, availableQuantity);
-        
-        console.log(`Stored procedure executed, or should've...`);
-
-
-        //await spUpdateBalance(purchaseAmmount, accountNumber);
+        await spUpdateBalance(purchaseAmmount, accountNumber);
         console.log("- Comprada realizada con éxito!");
       }
     } else {
@@ -152,9 +146,9 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
       const AvailableEbayProduct = (await thereIsProductInEbay(name)).quantity;
       const AvailableMercadoLibreProduct = (await thereIsProductInMercadoLibre(name)).quantity;
       
-      console.log(`Cantidad productos en Alibaba: ${AvailableAlibabaProduct}`);
-      console.log(`Cantidad productos en Ebay: ${AvailableEbayProduct}`);
-      console.log(`Cantidad productos en Mercado Libre: ${AvailableMercadoLibreProduct}`);
+      console.log(`- Cantidad productos en Alibaba: ${AvailableAlibabaProduct}`);
+      console.log(`- Cantidad productos en Ebay: ${AvailableEbayProduct}`);
+      console.log(`- Cantidad productos en Mercado Libre: ${AvailableMercadoLibreProduct}`);
 
       // Validate that there is enough porducts on the tables
       if (
@@ -162,23 +156,21 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
         quantity <= AvailableEbayProduct ||
         quantity <= AvailableMercadoLibreProduct
       ) {
-        console.log("- Se puede comprar porque hay suficiente cantidad en alguna tabla");
         console.log('- Realizando compra...')
         
-        //Transfer the cheapest product to CEDI's table.
-        console.log(`Datos a mandar al stored procedure: ${name}, ${parseInt(price.slice(1))} y ${quantity}`);
+        // Transfer the cheapest product to CEDI's table.
         await spGetCheapestProductAndSendToCEDI(name, parseInt(price.slice(1)), quantity);
         availableQuantity = (await thereIsProduct(name)).quantity;
-        console.log(`Cantidad en el CEDI despues de obtener el producto mas barato: ${availableQuantity}`);
-        // Update the CEDI's table.
+
+        // Update CEDI's table.
         await spUpdateCEDI(name, availableQuantity);
 
-        console.log(`Cantidad en el CEDI despues de actualizar el registro: ${availableQuantity}`);
+        // Update User Balance.
+        await spUpdateBalance(purchaseAmmount, accountNumber);
 
-        //await spUpdateBalance(purchaseAmmount, accountNumber);
         console.log("- Comprada realizada con éxito!");
       } else {
-        console.log("- No hay suficientes productos...");
+        console.log("- Productos Agotados...");
       }
     }
   }
