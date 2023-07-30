@@ -143,14 +143,23 @@ td {
   transition: .3s;
 }
 
-.form__error {
+.form__error,
+.form__success {
   width: 100%;
-  background-color: red;
-  color: var(--white);
   padding: .7rem;
   text-align: center;
   border-radius: .5rem;
   margin-top: -0.5rem;
+}
+
+.form__error {
+  background-color: #ff0000;
+  color: var(--white);
+}
+.form__success {
+  background-color: #379e00;
+  font-size: 2rem;
+  color: var(--white);
 }
 
 /* Header */

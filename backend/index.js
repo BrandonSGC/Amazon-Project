@@ -73,18 +73,16 @@ app.post("/purchase", async (req, res) => {
     if (balance > purchaseAmmount) {
       try {
         await makePurchase(products, purchaseAmmount, accountNumber);
-        res.send("Comprada realizada con éxito!");
+        res.json({ success: true, message: "Comprada realizada con éxito!"});
       } catch (error) {
-        console.log(`Error al comprar: ${error}`);
-        res.send("Error al realizar la compra.");
+        res.json({ success: false, message: "Error al realizar la compra..."});
       }
     } else {
-      console.log("Fondos insuficientes.");
-      res.send("Fondos insuficientes.");
+      res.json({ success: false, message: "Error al realizar la compra..."});
     }
   } catch (error) {
     console.error("Error al realizar la compra:", error);
-    res.status(500).send("Error al realizar la compra...");
+    res.json({ success: false, message: "Error al realizar la compra..."});
   }
 });
 

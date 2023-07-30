@@ -43,8 +43,34 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json()) // <= Handle JSON response from server
-      .then((data) => console.log(data))
+      .then((res) => { // <= Handle JSON response from server
+        res.json().then(data => {
+          
+          const error = document.getElementById("error-message");
+          
+          if (data.success) {
+            // Show the alert.
+            error.textContent = data.message;
+            error.className = "form__success";
+
+            //Delete alert after 3 secs.
+            setTimeout(() => {
+              purchaseForm.removeChild(error);
+            }, 3000);
+          } else {
+            console.log(data.message);
+            
+            // Show the alert.
+            error.textContent = data.message;
+            error.className = "form__error";
+
+            //Delete alert after 3 secs.
+            setTimeout(() => {
+              purchaseForm.removeChild(error);
+            }, 3000);
+          }
+        })
+      }) 
       .catch((error) => console.error(error));
   });
 });
