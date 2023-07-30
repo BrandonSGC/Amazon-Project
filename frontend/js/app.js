@@ -5,7 +5,9 @@ const table = document.querySelector('.cart__table tbody');
 const productsCounter = document.querySelector('.cart__counter span');
 const btnVaciarCarrito = document.querySelector('.cart__button');
 
+
 loadEventListeners()
+
 
 // Functions
 function loadEventListeners() {
@@ -18,12 +20,14 @@ function loadEventListeners() {
     // Show the products from the Local Storage
     document.addEventListener('DOMContentLoaded', () => {
         products = JSON.parse(localStorage.getItem('cart')) || [];
-        productsCounter.textContent = products.length;
+        productsCounter.textContent = getQuantityOfProducts(products);
         showProductsInCart();
     })
 
     // Empty shopping cart.
     btnVaciarCarrito.addEventListener('click', emptyCart);
+
+    // Delete individual product.
     
 }
 
@@ -37,13 +41,13 @@ function deleteProduct(evt) {
 function addProduct(evt) {
     // Prevent scroll to the top when button is clicked.
     evt.preventDefault();
-    
     if (evt.target.classList.contains('card__button')) {
         const selectedProduct = evt.target.parentElement.parentElement
         sicronizarStorage();
-        productsCounter.textContent = parseInt(productsCounter.textContent) + 1;
+
         getProductInfo(selectedProduct);
-        console.log(products);
+        
+        productsCounter.textContent = getQuantityOfProducts(products);
     }
 }
 
@@ -110,4 +114,12 @@ function emptyCart() {
     limpiarHTML();
     productsCounter.textContent = 0;
     sicronizarStorage();
+}
+
+// GetQuantityOfProducts
+function getQuantityOfProducts(products) {
+    let quantityProducts = products.reduce((total, product) => {
+        return total += product.quantity;
+    }, 0);
+    return quantityProducts;
 }

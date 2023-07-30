@@ -9,7 +9,7 @@ const purchaseForm = document.querySelector("#purchaseForm");
 document.addEventListener("DOMContentLoaded", () => {
   // Show products in the cart
   showProductsInCart();
-
+  productsCounter.textContent = getQuantityOfProducts(products);
   // Empty shopping cart.
   btnVaciarCarrito.addEventListener("click", emptyCart);
 
@@ -61,7 +61,6 @@ function showProductsInCart() {
     cartTableBody.appendChild(row);
   });
 
-  productsCounter.textContent = products.length;
 }
 
 function sicronizarStorage() {
@@ -77,4 +76,12 @@ function emptyCart() {
   limpiarHTML();
   productsCounter.textContent = 0;
   sicronizarStorage();
+}
+
+// GetQuantityOfProducts
+function getQuantityOfProducts(products) {
+  let quantityProducts = products.reduce((total, product) => {
+      return total += product.quantity;
+  }, 0);
+  return quantityProducts;
 }
