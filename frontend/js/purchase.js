@@ -56,6 +56,7 @@ function deleteProduct(evt) {
       const name = evt.target.id;
       products = products.filter( product => product.name != name);
       showProductsInCart();
+      sicronizarStorage();
       productsCounter.textContent = getQuantityOfProducts(products);
       total.textContent = `$${getTotalAmmountToPay(products)}`;
   }

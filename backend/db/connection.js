@@ -57,8 +57,6 @@ async function thereIsProduct(name) {
 async function spUpdateCEDI(productName, quantity) {
   try {
     const pool = await sql.connect(config);
-    console.log(`- Producto: ${productName}, length: ${productName.length}, tipo: ${typeof productName}`);
-    console.log(`- Cantidad: ${quantity}, tipo: ${typeof quantity}`);
 
     await pool
       .request()
