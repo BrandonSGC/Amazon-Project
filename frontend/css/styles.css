@@ -575,7 +575,7 @@ td {
 .socialCard {
   width: fit-content;
   height: fit-content;
-  background-color: var(--white);
+  background-color: #37475a;
   display: flex;
   align-items: center;
   justify-content: center;
