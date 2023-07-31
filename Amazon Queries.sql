@@ -191,6 +191,7 @@ END;
 EXEC spAmazon_GetCheapestProductAndSendToCEDI 'Hacker Mask', 20, 1;
 UPDATE Alibaba set precio = 20 WHERE sku = 8663;
 UPDATE CEDI set cantidad = 0 WHERE sku = 7344;
+UPDATE CuentaBancaria SET saldo = 100000 WHERE numCuenta = 23123;
 SELECT * FROM CEDI;
 SELECT * FROM Alibaba;
 SELECT * FROM Ebay;

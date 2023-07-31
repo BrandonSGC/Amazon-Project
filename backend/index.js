@@ -119,7 +119,7 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
         console.log(`- Hay suficiente cantidad en CEDI`);
         // Update the CEDI's table records.
         await spUpdateCEDI(name, quantity);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
 
         console.log("- Comprada realizada con éxito!");
       } else {
@@ -134,7 +134,7 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
         
         // Update the CEDI's table.
         await spUpdateCEDI(name, availableQuantity);
-        await spUpdateBalance(purchaseAmmount, accountNumber);
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
         console.log("- Comprada realizada con éxito!");
       }
     } else {
@@ -164,12 +164,14 @@ async function makePurchase(products, purchaseAmmount, accountNumber) {
         await spUpdateCEDI(name, availableQuantity);
 
         // Update User Balance.
-        await spUpdateBalance(purchaseAmmount, accountNumber);
+        //await spUpdateBalance(purchaseAmmount, accountNumber);
 
         console.log("- Comprada realizada con éxito!");
       } else {
         console.log("- Productos Agotados...");
+        return;
       }
     }
   }
+  await spUpdateBalance(purchaseAmmount, accountNumber);
 }
